@@ -33,6 +33,16 @@
         border: 1px solid rgba(255, 255, 255, 0.5);
         box-shadow: 0 10px 30px -10px rgba(4, 120, 87, 0.15);
       }
+
+      /* 숫자 입력 필드의 위아래 조절 삼각형 화살표 숨김 */
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      input[type=number] {
+        -moz-appearance: textfield;
+      }
     </style>
   </head>
   <body class="flex items-center justify-center p-4">
@@ -73,15 +83,14 @@
 
         <!-- Input for attendance (출석) -->
         <div>
-          <label for="attendance" class="block text-xs font-semibold text-emerald-900 mb-1.5 pl-1">👥 출석 기록 (출석 수 또는 약어)</label>
-          <input type="text" id="attendance" name="attendance" placeholder="예: 직원회 참석 시 '직', '원', '회' 또는 인원수 입력" class="w-full bg-white/70 border border-emerald-200 rounded-xl py-3 px-4 text-sm text-emerald-950 placeholder-emerald-450 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200">
-          <p class="text-[10px] text-emerald-700/80 mt-1 pl-1">※ 직원회 소집 주간에는 안내에 따라 지정 약어("직", "원", "회")를 적어주세요.</p>
+          <label for="attendance" class="block text-xs font-semibold text-emerald-900 mb-1.5 pl-1">출석인원</label>
+          <input type="text" id="attendance" name="attendance" placeholder="예: 인원수" class="w-full bg-white/70 border border-emerald-200 rounded-xl py-3 px-4 text-sm text-emerald-950 placeholder-emerald-450 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200">
         </div>
 
         <!-- Input for Bible reading pages (성경읽기 이번주 장수) -->
         <div>
-          <label for="thisWeek" class="block text-xs font-semibold text-emerald-900 mb-1.5 pl-1">📖 이번 주 성경읽기 장수</label>
-          <input type="number" id="thisWeek" name="thisWeek" required min="0" placeholder="이번 주에 읽은 총 장수를 숫자로 입력하세요" class="w-full bg-white/70 border border-emerald-200 rounded-xl py-3 px-4 text-sm text-emerald-950 placeholder-emerald-450 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200">
+          <label for="thisWeek" class="block text-xs font-semibold text-emerald-900 mb-1.5 pl-1">성경읽기 장수</label>
+          <input type="number" id="thisWeek" name="thisWeek" required min="0" placeholder="예: 장수" class="w-full bg-white/70 border border-emerald-200 rounded-xl py-3 px-4 text-sm text-emerald-950 placeholder-emerald-450 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200">
         </div>
 
         <!-- Submit Button -->
