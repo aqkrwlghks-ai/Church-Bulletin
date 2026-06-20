@@ -1435,12 +1435,15 @@
 
       function getLeaderPageUrl() {
         if (window.location.protocol === 'file:') {
-          return window.location.href.replace('index.html', 'leader.html');
+          return 'https://chilly-bushes-hide.loca.lt/leader.html';
         }
         if (window.location.port === '3000' || window.location.hostname === 'localhost') {
           return window.location.origin + '/leader';
         }
         const url = window.location.href.split('?')[0].split('#')[0];
+        if (url.includes('github.io') || url.includes('loca.lt')) {
+          return 'https://chilly-bushes-hide.loca.lt/leader.html';
+        }
         if (url.endsWith('.html')) {
           return url.substring(0, url.lastIndexOf('/')) + '/leader.html';
         }
