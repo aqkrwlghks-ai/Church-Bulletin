@@ -1,0 +1,6 @@
+{
+  "name": "교회 주보 생성기",
+  "description": "매주 교회 주보를 입력하고 A4 사이즈로 실시간 미리보기 및 인쇄할 수 있는 웹 어플리케이션",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
