@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>교회 주보 생성기 | 실시간 A4 인쇄 레이아웃</title>
-    <!-- Google Fonts: 아름다운 한글 폰트 적용 -->
+    <!-- Google Fonts: 나눔명조 및 Noto Sans KR -->
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <!-- Tailwind CSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -25,12 +25,12 @@
       /* --- Editorial Aesthetic - 화면 브라우징 전용 스타일 --- */
       body {
         margin: 0;
-        background-color: #e5e7eb; /* Fine warm grey background for elegant contrast */
-        color: #1c1917; /* Soft stone charcoal for better readability */
+        background-color: #e5e7eb;
+        color: #1c1917;
         font-family: 'Noto Sans KR', sans-serif;
       }
 
-      /* 스크롤바 디자인 커스텀 - Editorial style refined */
+      /* 스크롤바 디자인 커스텀 */
       .custom-scrollbar::-webkit-scrollbar {
         width: 6px;
       }
@@ -50,16 +50,16 @@
         width: 297mm;
         height: 210mm;
         background-color: #fcfbf9; /* Exquisite cream-tinted premium book paper */
-        box-shadow: 0 15px 35px -5px rgba(28, 25, 23, 0.15), 0 5px 15px -5px rgba(28, 25, 23, 0.08); /* Sophisticated shadow */
+        box-shadow: 0 15px 35px -5px rgba(28, 25, 23, 0.15), 0 5px 15px -5px rgba(28, 25, 23, 0.08);
         border: 1px solid #dcdad5;
         position: relative;
         overflow: hidden;
         box-sizing: border-box;
-        padding: 12mm 14mm; /* Balanced print margins */
+        padding: 10mm 12mm; /* Optimized print margins */
         transform-origin: top center;
         transition: transform 0.2s ease-in-out;
         z-index: 10;
-        font-family: 'Nanum Myeongjo', 'Georgia', serif; /* Default serif body text */
+        font-family: 'Nanum Myeongjo', 'Georgia', serif;
       }
 
       /* 접는선 표지 가이드 */
@@ -69,7 +69,7 @@
         top: 0;
         bottom: 0;
         transform: translateX(-50%);
-        border-right: 1.5px dashed #d6d3d1; /* Refined dashed divider */
+        border-right: 1.5px dashed #d6d3d1;
         pointer-events: none;
         z-index: 20;
       }
@@ -108,10 +108,10 @@
         font-family: 'Noto Sans KR', sans-serif;
       }
 
-      /* 예배순서 도트라인 연결자 (Dot Leaders) */
+      /* 예배순서 도트라인 연결자 */
       .leader-dots {
         flex-grow: 1;
-        border-bottom: 1.5px dotted #a8a29e; /* Muted dot leaders */
+        border-bottom: 1.5px dotted #a8a29e;
         margin: 0 8px;
         position: relative;
         top: -4px;
@@ -124,7 +124,7 @@
         border-radius: 3px;
       }
       [contenteditable="true"]:hover {
-        background-color: rgba(245, 245, 244, 0.9); /* Subtle warm cream focus */
+        background-color: rgba(245, 245, 244, 0.9);
         box-shadow: 0 0 0 2px rgba(120, 113, 108, 0.2);
       }
       [contenteditable="true"]:focus {
@@ -132,7 +132,35 @@
         box-shadow: 0 0 0 2px rgba(120, 113, 108, 0.4);
       }
 
-      /* --- 인쇄 전용 CSS (중요!) --- */
+      /* 격자 테이블 정밀 교환 */
+      .bulletin-table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      .bulletin-table th {
+        border-top: 1px solid #57534e;
+        border-bottom: 1px solid #57534e;
+        padding: 2px 4px;
+        font-family: 'Nanum Myeongjo', serif;
+        font-weight: 700;
+        font-size: 8px;
+        color: #1c1917;
+      }
+      .bulletin-table td {
+        border-bottom: 1px solid #e7e5e4;
+        padding: 2px 4px;
+        line-height: 1.25;
+        font-size: 8px;
+        color: #44403c;
+      }
+      
+      .sermon-note-lined-bg {
+        line-height: 18px;
+        background-image: linear-gradient(to bottom, transparent 17px, #e5e7eb 17px);
+        background-size: 100% 18px;
+      }
+
+      /* --- 인쇄 전용 CSS --- */
       @media print {
         @page {
           size: A4 landscape;
@@ -147,12 +175,10 @@
           print-color-adjust: exact !important;
         }
 
-        /* 입력 폼 등 인쇄 비활성 영역 제거 */
         .no-print {
           display: none !important;
         }
 
-        /* 미리보기 메인 레이아웃 초기화 */
         .print-layout-container {
           display: block !important;
           background-color: white !important;
@@ -175,10 +201,9 @@
           display: block !important;
           page-break-inside: avoid !important;
           float: none !important;
-          background-color: white !important;
+          background-color: #fcfbf9 !important;
         }
 
-        /* 영구 출력물에서는 점선 및 접는 가이드를 숨기거나 은은하게 남기기 */
         .fold-line-guide {
           border-right: 1px dotted #e7e5e4 !important;
         }
@@ -190,46 +215,11 @@
           page-break-after: avoid !important;
         }
       }
-
-      /* 격자 테이블 정밀 교환 - Editorial Aesthetic: Clean borders, elegant padding */
-      .bulletin-table {
-        border-collapse: collapse;
-        width: 100%;
-      }
-      .bulletin-table th {
-        border-top: 1px solid #57534e;
-        border-bottom: 2px border-style: double;
-        border-bottom-width: 3px;
-        border-bottom-color: #57534e;
-        padding: 4px 6px;
-        font-family: 'Nanum Myeongjo', serif;
-        font-weight: 700;
-        font-size: 9.5px;
-        color: #1c1917;
-      }
-      .bulletin-table td {
-        border-bottom: 1px solid #e7e5e4;
-        padding: 4px 6px;
-        line-height: 1.3;
-        font-size: 10px;
-        color: #44403c;
-      }
-      .bulletin-table tr:hover td {
-        background-color: rgba(245, 245, 244, 0.4);
-      }
-      
-      .sermon-note-box {
-        border: 1px solid #d6d3d1;
-        background-color: #fafaf9;
-        background-image: linear-gradient(#e7e5e4 1px, transparent 1px);
-        background-size: 100% 20px;
-        line-height: 20px;
-      }
     </style>
   </head>
   <body class="h-screen flex overflow-hidden">
 
-    <!-- [1. SIDEBAR]: 고정 너비 입력 컨트롤러 (인쇄 시 숨김) - Warm Stone Editorial Theme -->
+    <!-- [1. SIDEBAR]: 고정 너비 입력 컨트롤러 -->
     <aside class="no-print w-[460px] bg-stone-100 text-stone-800 flex flex-col border-r border-stone-200 flex-shrink-0 z-30">
       
       <!-- 사이드바 상단 고정 헤더 -->
@@ -237,19 +227,19 @@
         <div class="flex items-center gap-3">
           <span class="text-xl">⛪</span>
           <div>
-            <h1 class="text-lg font-bold tracking-tight text-stone-900 font-serif">주보 편집기</h1>
-            <p class="text-[11px] text-stone-500">교회 주보 작성 및 실시간 A4 인쇄 시스템</p>
+            <h1 class="text-lg font-bold tracking-tight text-stone-900 font-serif">빛나는교회 주보 편집기</h1>
+            <p class="text-[11px] text-stone-500">실시간 직접 편집 및 A4 양면 인쇄 시스템</p>
           </div>
         </div>
         
         <!-- 실시간 도구 버튼 -->
         <div class="mt-4 grid grid-cols-2 gap-2">
-          <button onclick="window.print()" class="flex items-center justify-center gap-2 bg-stone-900 hover:bg-stone-800 text-white font-semibold py-2 px-4 rounded-lg shadow-sm transition-all duration-150 transform active:scale-95 text-sm cursor-pointer">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-printer"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v5"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg>
+          <button onclick="window.print()" class="flex items-center justify-center gap-2 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold py-2 px-4 rounded-lg shadow-sm transition-all duration-150 transform active:scale-95 text-sm cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v5"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg>
             인쇄하기 (A4)
           </button>
           <button onclick="confirmReset()" class="flex items-center justify-center gap-2 border border-stone-300 hover:bg-stone-50 text-stone-700 font-medium py-2 px-3 rounded-lg transition duration-150 text-sm cursor-pointer">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-ccw"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
             전체 초기화
           </button>
         </div>
@@ -258,162 +248,139 @@
       <!-- 양식 채우기 구역 (스크롤 구역) -->
       <div class="flex-1 overflow-y-auto p-5 space-y-6 custom-scrollbar bg-stone-100">
         
-        <!-- 월별 표지 배경 테마 설정 -->
-        <div class="bg-white p-4 rounded-xl border border-stone-200 shadow-xs">
-          <label class="block text-xs font-semibold text-stone-850 uppercase tracking-wider mb-2 font-serif">🌸 월별 표지 테마 설정</label>
-          <div class="flex gap-2 items-center">
-            <select id="month-select" onchange="updateMonthTheme(this.value)" class="flex-1 bg-stone-50 border border-stone-300 rounded-lg py-2 px-3 text-sm text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-400 focus:border-stone-400">
-              <option value="1">1월 (겨울 블루 테마)</option>
-              <option value="2">2월 (겨울 블루 테마)</option>
-              <option value="3">3월 (봄 핑크 테마)</option>
-              <option value="4">4월 (봄 핑크 테마)</option>
-              <option value="5">5월 (봄 핑크 테마)</option>
-              <option value="6" selected>6월 (여름 그린 테마)</option>
-              <option value="7">7월 (여름 그린 테마)</option>
-              <option value="8">8월 (여름 그린 테마)</option>
-              <option value="9">9월 (가을 골드 테마)</option>
-              <option value="10">10월 (가을 골드 테마)</option>
-              <option value="11">11월 (가을 골드 테마)</option>
-              <option value="12">12월 (겨울 블루 테마)</option>
-            </select>
-          </div>
-          <p class="text-[10px] text-stone-500 mt-2">※ 월 선택 변경 시 1면 표지의 배경 템플릿 색상 및 이미지가 교단 무드에 맞춰 아름답게 분화됩니다.</p>
-        </div>
-
         <!-- 💡 간편 직접편집 팁 안내 -->
-        <div class="bg-amber-50/60 border border-amber-200 p-3 rounded-lg text-xs text-amber-900 shadow-xs">
+        <div class="bg-amber-50/70 border border-amber-200 p-3 rounded-lg text-xs text-amber-900 shadow-xs">
           <p class="font-bold flex items-center gap-1.5 font-serif text-amber-950">
-            <span>✨</span> 실시간 본문 가필 시스템
+            <span>✨</span> 실시간 본문 직접 가필 시스템
           </p>
           <p class="mt-1 leading-relaxed text-[11px] text-amber-800">
-            오른쪽 A4 주보 본문의 <b>예배 요약 표, 인원 명단, 시간표</b> 등은 미리보기 화면에서 <b>글자를 직접 마우스로 콕 클릭하여 편집기처럼 수정</b>할 수 있습니다! 전체 내용이 브라우저에 실시간 자동 영구 저장됩니다.
+            오른쪽 A4 주보 미리보기의 <b>글자나 표 내용</b>을 마우스로 콕 클릭하여 편집기처럼 자유롭게 수정할 수 있습니다! 전체 편집 내용은 브라우저에 실시간 자동 저장됩니다.
           </p>
         </div>
 
         <!-- Section 1. 표지 공통 양식 -->
         <div class="bg-white p-4 rounded-xl border border-stone-200 shadow-xs space-y-4">
-          <h3 class="text-sm font-bold text-stone-900 border-l-4 border-stone-700 pl-2 font-serif">1. 표지 및 공통 정보 (1면)</h3>
+          <h3 class="text-sm font-bold text-stone-900 border-l-4 border-emerald-700 pl-2 font-serif">1. 표지 정보 (1면)</h3>
           
           <div>
             <label class="block text-xs text-stone-500 mb-1 font-medium">교단명</label>
-            <input type="text" id="input-denom" oninput="syncText(this.value, 'preview-denom')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 focus:border-stone-400">
+            <input type="text" id="input-denom" oninput="syncText(this.value, 'preview-denom')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400">
           </div>
           
           <div class="grid grid-cols-2 gap-2">
             <div>
               <label class="block text-xs text-stone-500 mb-1 font-medium">인쇄 일자</label>
-              <input type="text" id="input-date" oninput="syncText(this.value, 'preview-date'); syncText(this.value, 'preview-date-liturgy')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 focus:border-stone-400">
+              <input type="text" id="input-date" oninput="syncText(this.value, 'preview-date'); syncText(this.value, 'preview-date-liturgy')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400">
             </div>
             <div>
               <label class="block text-xs text-stone-500 mb-1 font-medium">주차 및 통권 정보</label>
-              <input type="text" id="input-week" oninput="syncText(this.value, 'preview-week')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 focus:border-stone-400">
+              <input type="text" id="input-week" oninput="syncText(this.value, 'preview-week')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400">
             </div>
           </div>
 
           <div>
             <label class="block text-xs text-stone-500 mb-1 font-medium">교회이름</label>
-            <input type="text" id="input-church" oninput="syncText(this.value, 'preview-church')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 focus:border-stone-400">
+            <input type="text" id="input-church" oninput="syncText(this.value, 'preview-church')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400">
           </div>
 
           <div>
-            <label class="block text-xs text-stone-500 mb-1 font-medium">교회 핵심 표지 문구</label>
-            <input type="text" id="input-slogan" oninput="syncText(this.value, 'preview-slogan')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 focus:border-stone-400">
+            <label class="block text-xs text-stone-500 mb-1 font-medium">교회 핵심 표지 문구 (Slogan)</label>
+            <input type="text" id="input-slogan" oninput="syncText(this.value, 'preview-slogan')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400">
           </div>
 
           <div>
             <label class="block text-xs text-stone-500 mb-1 font-medium">표지 성경 말씀 구절</label>
-            <textarea id="input-scripture" oninput="syncText(this.value, 'preview-scripture')" rows="2" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 focus:border-stone-400 custom-scrollbar"></textarea>
+            <input type="text" id="input-scripture" oninput="syncText(this.value, 'preview-scripture')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400">
           </div>
 
           <div>
             <label class="block text-xs text-stone-500 mb-1 font-medium">담임목사 소개 문구</label>
-            <input type="text" id="input-pastor" oninput="syncText(this.value, 'preview-pastor')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 focus:border-stone-400">
+            <input type="text" id="input-pastor" oninput="syncText(this.value, 'preview-pastor')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400">
           </div>
         </div>
 
-        <!-- Section 2. 알리는 말씀 및 일정/선교 (2면) -->
+        <!-- Section 2. 알리는 말씀 및 일정/선교 (4면) -->
         <div class="bg-white p-4 rounded-xl border border-stone-200 shadow-xs space-y-4">
-          <h3 class="text-sm font-bold text-stone-900 border-l-4 border-stone-700 pl-2 font-serif">2. 소식, 일정 및 선교 (2면)</h3>
+          <h3 class="text-sm font-bold text-stone-900 border-l-4 border-emerald-700 pl-2 font-serif">2. 소식, 일정 및 선교 (4면 - 뒷면)</h3>
           
           <div>
             <label class="block text-xs text-stone-500 mb-1 font-medium">알리는 말씀 (줄바꿈 단위 작성)</label>
-            <textarea id="input-announcements" oninput="syncList(this.value, 'preview-announcements', true)" rows="4" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-2 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 focus:border-stone-400 custom-scrollbar" placeholder="한 줄에 항목 하나씩 입력하세요."></textarea>
+            <textarea id="input-announcements" oninput="syncList(this.value, 'preview-announcements', true)" rows="4" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-2 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 custom-scrollbar" placeholder="한 줄에 하나씩 입력하세요."></textarea>
           </div>
 
           <div>
-            <label class="block text-xs text-stone-500 mb-1 font-medium">사역일정 일정 리스트 (줄바꿈 단위)</label>
-            <textarea id="input-schedule" oninput="syncListHTML(this.value, 'preview-schedule')" rows="4" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-2 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 focus:border-stone-400 custom-scrollbar" placeholder="[대제목] 이거나 일반 줄바꿈 입력"></textarea>
+            <label class="block text-xs text-stone-500 mb-1 font-medium">사역일정 리스트 (줄바꿈 단위)</label>
+            <textarea id="input-schedule" oninput="syncListHTML(this.value, 'preview-schedule')" rows="4" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-2 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 custom-scrollbar" placeholder="[대제목] 이거나 일반 일정 단위"></textarea>
           </div>
 
           <div class="grid grid-cols-2 gap-2">
             <div>
               <label class="block text-xs text-stone-500 mb-1 font-medium">해외 선교지</label>
-              <textarea id="input-oversea" oninput="syncList(this.value, 'preview-oversea')" rows="3" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-xs text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 focus:border-stone-400 custom-scrollbar"></textarea>
+              <textarea id="input-oversea" oninput="syncList(this.value, 'preview-oversea')" rows="3" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-xs text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 custom-scrollbar"></textarea>
             </div>
             <div>
               <label class="block text-xs text-stone-500 mb-1 font-medium">국내/기관 선교지</label>
-              <textarea id="input-domestic" oninput="syncList(this.value, 'preview-domestic')" rows="3" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-xs text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 focus:border-stone-400 custom-scrollbar"></textarea>
+              <textarea id="input-domestic" oninput="syncList(this.value, 'preview-domestic')" rows="3" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-xs text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 custom-scrollbar"></textarea>
             </div>
           </div>
-          <p class="text-[10px] text-stone-500 mt-1 leading-relaxed border-t pt-1 border-stone-150 font-serif">※ 우측 본문 미리보기에서 직접 <b>가정교회 통계표, 예배 시간 안내</b>를 타이핑하고 숫자와 단어를 간편하게 정정하실 수 있습니다.</p>
         </div>
 
-        <!-- Section 3. 예배 순서 (3면) -->
+        <!-- Section 3. 예배 순서 (2면) -->
         <div class="bg-white p-4 rounded-xl border border-stone-200 shadow-xs space-y-4">
-          <h3 class="text-sm font-bold text-stone-900 border-l-4 border-stone-700 pl-2 font-serif">3. 예배 순서 설정 (3-4면)</h3>
+          <h3 class="text-sm font-bold text-stone-900 border-l-4 border-emerald-700 pl-2 font-serif">3. 예배 순서 설정 (2면 - 내지 좌측)</h3>
           
           <div class="grid grid-cols-2 gap-2">
             <div>
               <label class="block text-xs text-stone-500 mb-1 font-medium">예배 인도자명</label>
-              <input type="text" id="input-presider" oninput="syncText(this.value, 'preview-presider')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 focus:border-stone-400">
+              <input type="text" id="input-presider" oninput="syncText(this.value, 'preview-presider')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400">
             </div>
             <div>
-              <label class="block text-xs text-stone-500 mb-1 font-medium">설교/예배 찬양</label>
-              <input type="text" id="input-hymns" oninput="syncText(this.value, 'preview-hymns')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 focus:border-stone-400">
+              <label class="block text-xs text-stone-500 mb-1 font-medium">예배 찬양</label>
+              <input type="text" id="input-hymns" oninput="syncText(this.value, 'preview-hymns')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400">
             </div>
           </div>
 
           <div class="grid grid-cols-2 gap-2 border-t pt-2 border-stone-100">
             <div>
               <label class="block text-xs text-stone-500 mb-1 font-medium">대표 기도자(1부)</label>
-              <input type="text" id="input-prayer1" oninput="syncText(this.value, 'preview-prayer1')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 focus:border-stone-400">
+              <input type="text" id="input-prayer1" oninput="syncText(this.value, 'preview-prayer1')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400">
             </div>
             <div>
               <label class="block text-xs text-stone-500 mb-1 font-medium">대표 기도자(2부)</label>
-              <input type="text" id="input-prayer2" oninput="syncText(this.value, 'preview-prayer2')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 focus:border-stone-400">
+              <input type="text" id="input-prayer2" oninput="syncText(this.value, 'preview-prayer2')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400">
             </div>
           </div>
 
           <div>
             <label class="block text-xs text-stone-500 mb-1 font-medium">봉헌 찬양 제목</label>
-            <input type="text" id="input-offertory" oninput="syncText(this.value, 'preview-offertory')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 focus:border-stone-400">
+            <input type="text" id="input-offertory" oninput="syncText(this.value, 'preview-offertory')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400">
           </div>
 
           <div class="grid grid-cols-2 gap-2">
             <div>
               <label class="block text-xs text-stone-500 mb-1 font-medium">봉헌 조력자(1부)</label>
-              <input type="text" id="input-offertory-person1" oninput="syncText(this.value, 'preview-offertory-person1')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 focus:border-stone-400">
+              <input type="text" id="input-offertory-person1" oninput="syncText(this.value, 'preview-offertory-person1')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400">
             </div>
             <div>
               <label class="block text-xs text-stone-500 mb-1 font-medium">봉헌 조력자(2부)</label>
-              <input type="text" id="input-offertory-person2" oninput="syncText(this.value, 'preview-offertory-person2')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 focus:border-stone-400">
+              <input type="text" id="input-offertory-person2" oninput="syncText(this.value, 'preview-offertory-person2')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400">
             </div>
           </div>
 
           <div>
-            <label class="block text-xs text-stone-500 mb-1 font-medium">성경 말씀 봉독 장단</label>
-            <input type="text" id="input-bible" oninput="syncText(this.value, 'preview-bible')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 focus:border-stone-400">
+            <label class="block text-xs text-stone-500 mb-1 font-medium">성경 말씀 봉독</label>
+            <input type="text" id="input-bible" oninput="syncText(this.value, 'preview-bible')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400">
           </div>
 
           <div class="space-y-2 border-t border-stone-200 pt-3">
-            <label class="block text-xs font-semibold text-stone-850 font-serif">설교 제목</label>
+            <label class="block text-xs font-semibold text-stone-850 font-serif text-emerald-800">설교 제목 설정</label>
             <div>
               <label class="block text-[10px] text-stone-500">주일 1부 설교</label>
-              <input type="text" id="input-sermon1" oninput="syncText(this.value, 'preview-sermon1')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 focus:border-stone-400">
+              <input type="text" id="input-sermon1" oninput="syncText(this.value, 'preview-sermon1')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400">
             </div>
             <div>
               <label class="block text-[10px] text-stone-500">주일 2부 설교</label>
-              <input type="text" id="input-sermon2" oninput="syncText(this.value, 'preview-sermon2')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400 focus:border-stone-400">
+              <input type="text" id="input-sermon2" oninput="syncText(this.value, 'preview-sermon2')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400">
             </div>
           </div>
         </div>
@@ -428,7 +395,7 @@
       <!-- 상단 도구 유틸리티 바 (화면 전용) -->
       <div class="no-print w-full max-w-[297mm] bg-white border border-stone-200 text-stone-900 rounded-xl py-3 px-5 flex items-center justify-between shadow-xs">
         <div class="flex items-center gap-3">
-          <span class="inline-flex h-2.5 w-2.5 rounded-full bg-stone-500 animate-pulse"></span>
+          <span class="inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
           <span class="text-xs font-bold text-stone-500 tracking-wider uppercase font-mono">A4 landscape real-time print engine</span>
         </div>
         
@@ -441,11 +408,11 @@
         </div>
       </div>
 
-      <!-- 용지 감싸는 격자 레이아웃 (인쇄 시 이 구역만 추출 및 100% 본래 크기 출력) -->
+      <!-- 용지 감싸는 격자 레이아웃 -->
       <div id="print-area" class="print-layout-container flex flex-col items-center gap-8 pb-12 w-full">
         
         <!-- ==============================================
-             [A4 SHEET 1]: 왼쪽 절반(4면 - 사역/계획/봉사) / 오른쪽 절반(1면 - 표지) 
+             [A4 SHEET 1]: 왼쪽 절반(4면 - 뒷면) / 오른쪽 절반(1면 - 표지) 
              ============================================== -->
         <div id="sheet1" class="a4-sheet text-gray-900 flex flex-col select-text relative">
           
@@ -457,152 +424,318 @@
           <!-- 내부 콘텐츠 격자 -->
           <div class="grid grid-cols-2 h-full gap-x-12 relative flex-1">
             
-            <!-- (왼쪽 절반) [4면]: 소식, 사역일정 및 선교 (Activities & Service Plan) -->
-            <div class="flex flex-col h-full justify-between pr-4">
-              <div>
-                <!-- 4면 타이틀 -->
-                <div class="text-center relative py-1 mb-2 border-b-2 border-double border-stone-850">
-                  <h2 class="font-serif text-lg font-bold tracking-wider text-[#1c1917]">사역 일정 & 소식</h2>
-                </div>
-                
-                <!-- 동적으로 채워지는 사역일정 리스트 -->
-                <ul id="preview-schedule" class="text-[9.5px] space-y-1.5 text-stone-850 font-medium px-2 list-disc pl-4.5 leading-relaxed prose">
-                  <!-- JS 바인딩 일정 목록 -->
-                </ul>
-
-                <!-- 섬기는 선교지 정보 바인딩 -->
-                <div class="mt-3 bg-stone-50/90 p-2.5 rounded-lg border border-stone-200 text-[9px] leading-relaxed">
-                  <div class="font-bold text-stone-900 border-b border-stone-200 pb-1 mb-1.5 flex justify-between items-center font-serif">
-                    <span>🌍 우리가 기도와 물질로 섬기는 선교지</span>
+            <!-- (왼쪽 절반) [4면]: 소식, 일정, 선교, 예배시간 등 (Back Cover) -->
+            <div class="flex flex-col h-full justify-between pr-4 relative">
+              
+              <!-- 4면 내부 2단 분할 구조 -->
+              <div class="grid grid-cols-2 gap-4 flex-1">
+                <!-- 4-1 (좌측): 알리는말씀 & 가정교회표 -->
+                <div class="flex flex-col justify-between">
+                  <div>
+                    <div class="text-left border-b border-stone-800 pb-0.5 mb-1">
+                      <h3 class="font-serif text-[10px] font-bold text-stone-900">알리는 말씀</h3>
+                    </div>
+                    <ol id="preview-announcements" class="text-[8px] space-y-0.5 text-stone-800 list-decimal pl-3.5 leading-normal">
+                      <!-- JS dynamic binding -->
+                    </ol>
                   </div>
                   
-                  <div class="grid grid-cols-2 gap-3 font-serif text-stone-800">
-                    <div>
-                      <span class="font-bold text-stone-900 text-[9.5px] block border-b border-stone-150 pb-0.5 mb-1">[해외 선교]</span>
-                      <ul id="preview-oversea" class="list-decimal pl-3 space-y-0.5 text-stone-800 text-[8.5px]">
-                        <!-- 해외선교지 -->
-                      </ul>
+                  <!-- 가정교회 출석/성경읽기 표 -->
+                  <div class="mt-2">
+                    <div class="text-left border-b border-stone-850 pb-0.5 mb-1">
+                      <span class="font-serif text-[9px] font-bold text-stone-900">가정교회 (2026.1.1~현재)</span>
                     </div>
-                    <div>
-                      <span class="font-bold text-stone-900 text-[9.5px] block border-b border-stone-150 pb-0.5 mb-1">[국내 및 기관]</span>
-                      <ul id="preview-domestic" class="list-decimal pl-3 space-y-0.5 text-stone-800 text-[8.5px]">
-                        <!-- 국내선교지 -->
-                      </ul>
+                    <table class="w-full text-[7.5px] border-collapse text-center bulletin-table" id="family-church-table" contenteditable="true">
+                      <thead>
+                        <tr class="bg-stone-50 font-bold border-t border-b border-stone-600">
+                          <th class="py-0.5 border-r border-stone-200">가정교회</th>
+                          <th class="py-0.5 border-r border-stone-200">출석</th>
+                          <th colspan="2" class="py-0.5">성경읽기</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="border-b border-stone-200">
+                          <td class="font-bold border-r border-stone-200">김광선</td>
+                          <td class="border-r border-stone-200"></td>
+                          <td class="border-r border-stone-200">460</td>
+                          <td>14602</td>
+                        </tr>
+                        <tr class="border-b border-stone-200">
+                          <td class="font-bold border-r border-stone-200">김길남</td>
+                          <td class="border-r border-stone-200"></td>
+                          <td class="border-r border-stone-200">104</td>
+                          <td>5286</td>
+                        </tr>
+                        <tr class="border-b border-stone-200">
+                          <td class="font-bold border-r border-stone-200">김동주</td>
+                          <td class="border-r border-stone-200 font-bold text-red-650">직</td>
+                          <td class="border-r border-stone-200"></td>
+                          <td>530</td>
+                        </tr>
+                        <tr class="border-b border-stone-200">
+                          <td class="font-bold border-r border-stone-200">김애신</td>
+                          <td class="border-r border-stone-200"></td>
+                          <td class="border-r border-stone-200">200</td>
+                          <td>3688</td>
+                        </tr>
+                        <tr class="border-b border-stone-200">
+                          <td class="font-bold border-r border-stone-200">조영숙</td>
+                          <td class="border-r border-stone-200"></td>
+                          <td class="border-r border-stone-200">125</td>
+                          <td>4184</td>
+                        </tr>
+                        <tr class="border-b border-stone-200">
+                          <td class="font-bold border-r border-stone-200">윤명순</td>
+                          <td class="border-r border-stone-200 font-bold text-red-650">원</td>
+                          <td class="border-r border-stone-200">160</td>
+                          <td>3373</td>
+                        </tr>
+                        <tr class="border-b border-stone-200">
+                          <td class="font-bold border-r border-stone-200">이숙용</td>
+                          <td class="border-r border-stone-200"></td>
+                          <td class="border-r border-stone-200">150</td>
+                          <td>6387</td>
+                        </tr>
+                        <tr class="border-b border-stone-200">
+                          <td class="font-bold border-r border-stone-200">임상섭</td>
+                          <td class="border-r border-stone-200"></td>
+                          <td class="border-r border-stone-200">460</td>
+                          <td>12279</td>
+                        </tr>
+                        <tr class="border-b border-stone-200">
+                          <td class="font-bold border-r border-stone-200">임춘옥</td>
+                          <td class="border-r border-stone-200 font-bold text-red-650">회</td>
+                          <td class="border-r border-stone-200">159</td>
+                          <td>4618</td>
+                        </tr>
+                        <tr class="border-b border-stone-200">
+                          <td class="font-bold border-r border-stone-200">정현숙</td>
+                          <td class="border-r border-stone-200"></td>
+                          <td class="border-r border-stone-200">300</td>
+                          <td>7861</td>
+                        </tr>
+                        <tr class="border-b border-stone-200">
+                          <td class="font-bold border-r border-stone-200">김명선</td>
+                          <td class="border-r border-stone-200"></td>
+                          <td class="border-r border-stone-200">138</td>
+                          <td>3631</td>
+                        </tr>
+                        <tr class="border-b border-stone-200">
+                          <td class="font-bold border-r border-stone-200">새가족</td>
+                          <td class="border-r border-stone-200"></td>
+                          <td class="border-r border-stone-200"></td>
+                          <td></td>
+                        </tr>
+                        <tr class="font-bold bg-stone-100 border-t border-stone-400">
+                          <td class="border-r border-stone-200">합 계</td>
+                          <td class="border-r border-stone-200"></td>
+                          <td class="border-r border-stone-200">2256</td>
+                          <td>66439</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- 4-2 (우측): 사역일정 & 섬기는 곳(선교지) -->
+                <div class="flex flex-col justify-between pl-2">
+                  <div>
+                    <div class="text-left border-b border-stone-800 pb-0.5 mb-1">
+                      <h3 class="font-serif text-[10px] font-bold text-stone-900">사역일정</h3>
+                    </div>
+                    <ul id="preview-schedule" class="text-[8px] space-y-0.5 text-stone-850 list-none leading-relaxed">
+                      <!-- JS dynamic binding -->
+                    </ul>
+                  </div>
+
+                  <div class="mt-2">
+                    <div class="text-left border-b border-stone-850 pb-0.5 mb-1">
+                      <span class="font-serif text-[9px] font-bold text-stone-900">섬기는 곳</span>
+                    </div>
+                    <div class="text-[7.5px] text-stone-800 space-y-1.5 leading-normal max-h-[145px] overflow-y-auto">
+                      <div>
+                        <span class="font-bold block text-stone-900 font-serif">* 해외 선교지</span>
+                        <ol id="preview-oversea" class="list-decimal pl-3 space-y-0.5 text-[7px]">
+                          <!-- JS dynamic binding -->
+                        </ol>
+                      </div>
+                      <div>
+                        <span class="font-bold block text-stone-900 font-serif">* 국내 및 기관</span>
+                        <ol id="preview-domestic" class="list-decimal pl-3 space-y-0.5 text-[7px]">
+                          <!-- JS dynamic binding -->
+                        </ol>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!-- 하단 [다음 주 예배 봉사] (직접편집 테이블) + 핵심가치 -->
-              <div class="space-y-2.5 mt-2">
-                <!-- 다음 주 예배/봉사표 -->
-                <div>
-                  <h4 class="text-[9.5px] font-bold text-center border-t border-b border-stone-800 py-0.5 mb-1 bg-stone-50 text-stone-900 font-serif tracking-wide uppercase">다음 주 예배 / 봉사 계획</h4>
-                  <table class="w-full text-[9px] font-sans border-collapse text-center bulletin-table" id="next-service-table" contenteditable="true">
-                    <thead>
-                      <tr class="bg-stone-50 font-bold">
-                        <th class="w-1/5 py-1">예배 구분</th>
-                        <th class="w-1/5 py-1">대표기도</th>
-                        <th class="w-1/5 py-1">헌금봉헌</th>
-                        <th class="w-2/5 py-1">기타 위원 / 봉사 수고</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td class="font-semibold font-serif text-stone-900">주일 1부</td>
-                        <td>김성화 권사</td>
-                        <td>윤유순 권사</td>
-                        <td>성찬배종: 김광선, 임상섭, 김영수</td>
-                      </tr>
-                      <tr>
-                        <td class="font-semibold font-serif text-stone-900">주일 2부</td>
-                        <td>임춘옥 장로</td>
-                        <td>정희연 집사</td>
-                        <td>안내위원: 신은경, 박정미, 이호재</td>
-                      </tr>
-                    </tbody>
-                  </table>
+              <!-- 예배 시간 안내 테이블 (가로형) -->
+              <div class="mt-2.5">
+                <div class="bg-[#14b8a6] text-white text-center py-0.5 font-serif font-bold text-[8.5px] border border-stone-300 border-b-0">
+                  예배 시간 안내
                 </div>
+                <table class="w-full text-[7.5px] border-collapse text-center border border-stone-300" id="worship-time-table" contenteditable="true">
+                  <thead>
+                    <tr class="bg-stone-50 font-bold border-b border-stone-300 text-stone-700">
+                      <th class="py-0.5 border-r border-stone-200">구분</th>
+                      <th class="py-0.5 border-r border-stone-200">장소</th>
+                      <th class="py-0.5 border-r border-stone-200">시간</th>
+                      <th class="py-0.5 border-r border-stone-200">구분</th>
+                      <th class="py-0.5 border-r border-stone-200">장소</th>
+                      <th class="py-0.5">시간</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-stone-200">
+                      <td rowspan="4" class="font-bold border-r border-stone-200 align-middle bg-stone-50/50">주일예배</td>
+                      <td class="border-r border-stone-200">새벽예배</td>
+                      <td rowspan="4" class="border-r border-stone-200 align-middle">예배실</td>
+                      <td class="border-r border-stone-200">오전 5:00</td>
+                      <td class="border-r border-stone-200 font-bold">어린이 교회</td>
+                      <td class="border-r border-stone-200">2층 교육관</td>
+                      <td>오전 10:40</td>
+                    </tr>
+                    <tr class="border-b border-stone-200">
+                      <td class="border-r border-stone-200">1부 예배</td>
+                      <td class="border-r border-stone-200">오전 9:10</td>
+                      <td class="border-r border-stone-200 font-bold">청년&청소년교회</td>
+                      <td class="border-r border-stone-200">3층 교육관</td>
+                      <td>오전 10:30</td>
+                    </tr>
+                    <tr class="border-b border-stone-200">
+                      <td class="border-r border-stone-200">2부 예배</td>
+                      <td class="border-r border-stone-200">오전 11:00</td>
+                      <td class="border-r border-stone-200 font-bold">수요예배</td>
+                      <td class="border-r border-stone-200">예배실</td>
+                      <td>오후 7:30</td>
+                    </tr>
+                    <tr class="border-b border-stone-200">
+                      <td class="border-r border-stone-200">오후 예배</td>
+                      <td class="border-r border-stone-200">오후시간</td>
+                      <td class="border-r border-stone-200 font-bold">금요예배</td>
+                      <td class="border-r border-stone-200">예배실</td>
+                      <td>오후 8:00</td>
+                    </tr>
+                    <tr>
+                      <td class="font-bold border-r border-stone-200 bg-stone-50/50">가정교회</td>
+                      <td class="border-r border-stone-200">각장소</td>
+                      <td class="border-r border-stone-200">모임시간</td>
+                      <td class="border-r border-stone-200 font-bold">새벽기도</td>
+                      <td class="border-r border-stone-200">주일~토</td>
+                      <td>오전 5:00</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
-                <!-- 교회 핵심 가치 구절 고백판 -->
-                <div class="border border-stone-300 bg-stone-50/80 p-2 rounded-lg text-[9px] leading-relaxed text-stone-850" id="vision-statement-box" contenteditable="true">
-                  <p class="font-bold text-stone-900 mb-0.5 text-center text-[9.5px] font-serif tracking-wide">✨ 가치 있는 신앙 공동체의 실천 고백</p>
-                  <ul class="space-y-0.5 list-disc pl-3">
-                    <li>성령이 충만하여 말씀을 전파하고 제자 삼는 선교 (행 1:8)</li>
-                    <li>가정을 주 안에서 믿음으로 온전케 세우는 믿음 명문 (창 18:19)</li>
-                    <li>낙심된 자에게 소망을 주며 그리스도의 사랑을 나누는 터전</li>
-                  </ul>
+              <!-- 하단 수요예배 / 금요예배 본문 요약 상자 -->
+              <div class="grid grid-cols-2 gap-2 mt-2">
+                <div class="bg-[#fef9c3] border border-yellow-300 rounded px-2 py-1 text-center flex flex-col justify-center min-h-[30px]" id="wed-box" contenteditable="true">
+                  <div class="text-[9.5px] font-bold text-yellow-800">수요예배</div>
+                  <div class="text-[8px] text-stone-700">"경배와 찬양" 창49장</div>
+                </div>
+                <div class="bg-[#d1fae5] border border-emerald-300 rounded px-2 py-1 text-center flex flex-col justify-center min-h-[30px]" id="fri-box" contenteditable="true">
+                  <div class="text-[9.5px] font-bold text-emerald-800">금요예배</div>
+                  <div class="text-[8px] text-stone-700">히브리서 12장</div>
                 </div>
               </div>
+
             </div>
 
             <!-- (오른쪽 절반) [1면]: 표지 (Cover Page) -->
             <div class="flex flex-col h-full justify-between pl-4 relative" id="cover-page-area">
               
-              <!-- 동적 배경 테마 마크 (부드러운 디자인 백그라운드) -->
-              <div id="cover-bg" class="absolute inset-0 bg-contain bg-center opacity-10 pointer-events-none transition-all duration-300 rounded-lg"></div>
+              <!-- 옷걸이/집게 테마 탑 배경 이미지 -->
+              <div id="cover-bg" class="absolute inset-x-0 top-0 h-[38%] bg-cover bg-top pointer-events-none transition-all duration-300 rounded-t-lg" style="background-image: url('assets/cover_bg.png');"></div>
 
-              <div class="relative z-10 flex flex-col h-full justify-between">
+              <!-- 콘텐츠 배치영역 (탑 여백 32%로 이미지 안가리게 처리) -->
+              <div class="relative z-10 flex flex-col h-full justify-between pt-[32%]">
                 
-                <!-- 상단 헤더 라인 -->
-                <div class="flex justify-between items-center text-[10px] text-stone-800 border-b border-stone-300 pb-1.5 pt-1 font-serif">
-                  <!-- 교단 로고 표시 -->
+                <!-- 중앙 표지 타이틀 구역 -->
+                <div class="text-center flex flex-col items-center">
+                  <span class="font-serif text-[9px] text-[#4b5563] font-semibold mb-0.5">예수님이 주인이신</span>
+                  <h1 id="preview-church" class="font-serif font-black text-3xl tracking-widest text-[#111827] my-0.5">빛나는 교회</h1>
+                  
+                  <!-- 표지 성경 및 표어 고백 상자 -->
+                  <div class="mt-2.5 px-3 py-1 bg-[#fdfcfa]/90 border border-[#fbd38d]/60 rounded-lg max-w-[95%]">
+                    <p id="preview-slogan" class="text-[10px] text-[#c05621] font-bold font-serif leading-relaxed text-center">
+                      “만민을 제자 삼는 제자 공동체 되게 하소서”
+                    </p>
+                    <p id="preview-scripture" class="text-[8px] text-[#718096] font-serif text-center mt-0.5">(눅6:46~49)</p>
+                  </div>
+                </div>
+
+                <!-- 사역자 정보 및 담임목사 소개 -->
+                <div class="text-center font-serif mt-3">
+                  <p class="text-[8.5px] text-stone-700">사역자 Minister <span class="text-stone-900 font-bold">온 성도</span></p>
+                  <p class="text-[10px] text-stone-900 font-bold mt-0.5">사역자를 섬기는 담임목사 (Ph.D) <span id="preview-pastor" class="text-[10.5px]">김제희</span></p>
+                </div>
+
+                <!-- 하단 명단 및 부서 분장표 -->
+                <div class="space-y-1.5 mt-2.5">
+                  <!-- [1-1] 섬기는 분들 표 (4열) -->
+                  <table class="w-full text-[7.5px] border-collapse border border-stone-300 text-center" id="serving-officers-table" contenteditable="true">
+                    <tbody>
+                      <tr class="border-b border-stone-200">
+                        <td class="bg-stone-50 font-bold border-r border-stone-200 w-[15%] py-0.5">시무 장로</td>
+                        <td class="border-r border-stone-200 w-[35%]">이성실, 김길남, 김동주</td>
+                        <td colspan="2" class="bg-stone-50/50 font-semibold w-[50%]">사역목사 박지환 / 협동목사 김경희</td>
+                      </tr>
+                      <tr class="border-b border-stone-200">
+                        <td class="bg-stone-50 font-bold border-r border-stone-200 py-0.5">명예 전도사</td>
+                        <td class="border-r border-stone-200">김규진</td>
+                        <td class="bg-stone-50 font-bold border-r border-stone-200 w-[15%]">명예 장로</td>
+                        <td class="w-[35%]">임명철, 이김함, 김광선, 임상섭, 최종탁</td>
+                      </tr>
+                      <tr>
+                        <td class="bg-stone-50 font-bold border-r border-stone-200 py-0.5">협동 장로</td>
+                        <td class="border-r border-stone-200">나도영</td>
+                        <td class="bg-stone-50 font-bold border-r border-stone-200">반 주</td>
+                        <td>송귀례, 김혜민, 김형준</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <!-- [1-2] 사역 분장 및 가정교회 현황 -->
+                  <table class="w-full text-[7px] border-collapse border border-stone-300" id="departments-table" contenteditable="true">
+                    <tbody>
+                      <tr class="border-b border-stone-200">
+                        <td class="bg-stone-50 font-bold border-r border-stone-200 text-center w-[18%] py-0.5">전도, 새가족</td>
+                        <td class="px-1.5 w-[82%]">전도부(이순이) / 새가족(김광선)</td>
+                      </tr>
+                      <tr class="border-b border-stone-200">
+                        <td class="bg-stone-50 font-bold border-r border-stone-200 text-center py-0.5">예배</td>
+                        <td class="px-1.5">안내부(이성실)/찬양부(송귀례)/성찬부(이순이)/영상부(김재복)/봉헌부(김애신, 정현숙)</td>
+                      </tr>
+                      <tr class="border-b border-stone-200">
+                        <td class="bg-stone-50 font-bold border-r border-stone-200 text-center py-0.5">교육</td>
+                        <td class="px-1.5">유초등부(김애신) / 청소년,청년부(김광선)</td>
+                      </tr>
+                      <tr class="border-b border-stone-200">
+                        <td class="bg-stone-50 font-bold border-r border-stone-200 text-center py-0.5">사역</td>
+                        <td class="px-1.5">재정부(김길남) / 관리부(임상섭) / 경조부(전도회) / 선교부(장로회) / 서기부(김인주) / 감사부(김광선)</td>
+                      </tr>
+                      <tr>
+                        <td class="bg-stone-50 font-bold border-r border-stone-200 text-center py-0.5 align-middle">가정교회</td>
+                        <td class="px-1.5 py-0.5 leading-normal text-[6.5px]">
+                          소망(김광선,임명철) / 벧엘(김길남, 김재복) / 부흥(김동주,이효점) / 샬롬(김애신, 이유리) / 믿음(조영숙/서경) / 로뎀(윤명순,이순이) / 사랑(이숙용,정선미) / 동행(임상섭,윤유순) / 마하나임(임춘옥/이다금) / 임마누엘(정현숙,김갑숙,이옥란) / 한나(김명선, 조현순)
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- 헤더 로고 및 일자 안내 (절대배치 탑 고정) -->
+                <div class="absolute top-0 inset-x-0 flex justify-between items-center text-[8px] text-stone-700 border-b border-stone-300 pb-1.5 pt-0.5 font-serif z-20">
                   <div class="flex items-center gap-1.5 font-semibold text-stone-900">
-                    <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" class="text-stone-850 inline-block"><path d="M12 2L2 22h20L12 2zm0 3.8L18.4 18H5.6L12 5.8zm-1 3.2h2v4h-2v-4zm0 5h2v2h-2v-2z"/></svg>
+                    <svg viewBox="0 0 24 24" width="10" height="10" fill="currentColor" class="text-stone-850 inline-block"><path d="M12 2L2 22h20L12 2zm0 3.8L18.4 18H5.6L12 5.8zm-1 3.2h2v4h-2v-4zm0 5h2v2h-2v-2z"/></svg>
                     <span id="preview-denom">기독교대한성결교회</span>
                   </div>
-                  <!-- 날짜 주차 정보 -->
                   <div class="text-right font-serif leading-tight">
-                    <div id="preview-date" class="font-bold text-stone-900">2026년 6월 21일</div>
-                    <div class="text-stone-600 text-[9px] font-medium" id="preview-week">29주차 / 통권 22</div>
+                    <span id="preview-date" class="font-bold text-stone-900">2026년 6월 21일</span>
+                    <span class="text-stone-500 font-medium ml-2" id="preview-week">29주차 / 통권 22</span>
                   </div>
-                </div>
-
-                <!-- 중앙 표지 타이틀 구역 -->
-                <div class="text-center my-6 flex flex-col items-center">
-                  <!-- 메인 표지 배경 데코레이션 -->
-                  <span id="preview-slogan" class="font-serif italic text-xs text-stone-500 font-semibold mb-2">만민을 제자로 삼는</span>
-                  <h1 id="preview-church" class="font-serif font-black text-4xl tracking-widest text-[#1c1917] drop-shadow-xs my-1">빛나는 교회</h1>
-                  <span class="inline-block w-12 h-[1px] bg-stone-500 my-2"></span>
-                  
-                  <!-- 표지 하단 주력 문구 구절 -->
-                  <div class="px-4 py-1.5">
-                    <p id="preview-scripture" class="text-[10px] text-stone-800 font-bold font-serif leading-relaxed italic">
-                      “그리스도의 사랑으로 하나 되어 세상 사람들을 그리스도의 충성된 제자로 파송하는 은혜로운 교회” (눅 6:46~49)
-                    </p>
-                  </div>
-                </div>
-
-                <!-- 사역자 정보 및 하단 명단 테이블 -->
-                <div class="space-y-2 mt-auto font-serif">
-                  <div class="text-center bg-stone-100/75 py-1.5 rounded-lg border border-stone-200">
-                    <p class="text-[10px] text-stone-800 font-bold tracking-wider">사역자 Minister <span class="text-stone-600 font-medium">온 성도</span></p>
-                    <p class="text-xs text-stone-900 font-bold mt-0.5">담임목사 <span id="preview-pastor">김 제 희 목사 (Ph.D)</span></p>
-                  </div>
-
-                  <!-- [교지 임원/가정 대표 봉직표] (직접수정 contenteditable) -->
-                  <div class="bg-stone-50/70 p-2 rounded-lg border border-stone-200">
-                    <div class="text-center font-bold text-[9px] text-stone-800 mb-1 border-b border-stone-200 pb-0.5">섬기며 수고하시는 분들</div>
-                    <table class="w-full text-[9px] font-sans border-collapse text-center bulletin-table" id="serving-people-table" contenteditable="true">
-                      <tbody>
-                        <tr>
-                          <td class="font-semibold bg-stone-100/50 w-1/4 select-none">시무 장로</td>
-                          <td class="w-1/2">이성실, 김길남, 김동주</td>
-                          <td class="bg-stone-100/50 w-1/4 select-none">부목사/전도사</td>
-                        </tr>
-                        <tr>
-                          <td class="font-semibold bg-stone-100/50 select-none">명예 권사</td>
-                          <td>이순이, 조현순, 임춘옥</td>
-                          <td rowspan="2" class="align-middle text-xs font-serif font-bold text-stone-900">박지환 목사<br>김경희 전도사</td>
-                        </tr>
-                        <tr>
-                          <td class="font-semibold bg-stone-100/50 select-none">협동 안수집사</td>
-                          <td>나도영, 김광선, 임상섭</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-
                 </div>
 
               </div>
@@ -614,7 +747,7 @@
         </div>
 
         <!-- ==============================================
-             [A4 SHEET 2]: 왼쪽 절반(2면 - 알리는 말씀 & 정보) / 오른쪽 절반(3면 - 예배순서)
+             [A4 SHEET 2]: 왼쪽 절반(2면 - 예배순서) / 오른쪽 절반(3면 - 말씀노트)
              ============================================== -->
         <div id="sheet2" class="a4-sheet text-gray-900 flex flex-col select-text relative">
           
@@ -626,245 +759,199 @@
           <!-- 내부 콘텐츠 격자 -->
           <div class="grid grid-cols-2 h-full gap-x-12 relative flex-1">
             
-            <!-- (왼쪽 절반) [2면]: 알리는 말씀 및 통계표 (Announcements & Database) -->
-            <div class="flex flex-col h-full justify-between pr-4">
-              <div class="space-y-2">
-                <!-- 절반 헤더 타이틀 -->
-                <div class="text-center relative py-1 mb-1 border-b-2 border-double border-stone-850">
-                  <h2 class="font-serif text-lg font-bold tracking-wider text-[#1c1917]">알리는 말씀</h2>
-                </div>
-
-                <!-- 주간 주요 알릴 사항들 리스트 (vanilla JS 바인딩) -->
-                <ol id="preview-announcements" class="text-[10px] space-y-1 text-stone-850 font-medium px-1 list-decimal pl-3.5 leading-relaxed">
-                  <!-- JS에서 줄바꿈 기준으로 목록 자동 채워짐 -->
-                </ol>
-              </div>
-
-              <!-- 하단 가용 공간 [가정교회 현황] + [예배안내] (직접편집 테이블) -->
-              <div class="space-y-1.5 mt-2">
-                
-                <!-- 가정교회 출석 현황판 -->
-                <div>
-                  <div class="flex justify-between items-center text-[9px] text-stone-500 font-semibold mb-0.5 session-tag">
-                    <span>🏡 가정교회 양육 통계 (2026 기준)</span>
-                    <span class="text-[8px] text-stone-400">※셀 직접 편집 가능</span>
-                  </div>
-                  <table class="w-full text-[9px] border-collapse text-center bulletin-table" id="family-church-count-table" contenteditable="true">
-                    <thead>
-                      <tr class="bg-stone-50 font-bold">
-                        <th class="py-0.5">가정교회</th>
-                        <th class="py-0.5">목자</th>
-                        <th class="py-0.5">금주출석</th>
-                        <th class="py-0.5">성경읽기 (이번주)</th>
-                        <th class="py-0.5">누적 장수</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td class="font-semibold text-stone-900">소망</td>
-                        <td>김광선</td>
-                        <td>12명</td>
-                        <td>460장</td>
-                        <td>14,602장</td>
-                      </tr>
-                      <tr>
-                        <td class="font-semibold text-stone-900">벧엘</td>
-                        <td>김길남</td>
-                        <td>8명</td>
-                        <td>310장</td>
-                        <td>9,240장</td>
-                      </tr>
-                      <tr>
-                        <td class="font-semibold text-stone-900">사랑</td>
-                        <td>이숙용</td>
-                        <td>11명</td>
-                        <td>250장</td>
-                        <td>8,125장</td>
-                      </tr>
-                      <tr class="font-bold bg-stone-50">
-                        <td>합계</td>
-                        <td>총 12개교</td>
-                        <td>104명</td>
-                        <td>1,020장</td>
-                        <td>31,967장</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-                <!-- 예배 시간 안내 테이블 -->
-                <div>
-                  <table class="w-full text-[9px] border-collapse text-center bulletin-table border-stone-200" id="worship-time-table" contenteditable="true">
-                    <thead>
-                      <tr class="bg-stone-100/80 text-stone-900 font-bold">
-                        <th colspan="3" class="py-1">주일 예배 안내</th>
-                        <th colspan="3" class="py-1">주중 및 교육 예배</th>
-                      </tr>
-                      <tr class="bg-stone-50/50 font-semibold text-[8px] text-stone-700">
-                        <th>구분</th>
-                        <th>장소</th>
-                        <th>시간</th>
-                        <th>구분</th>
-                        <th>장소</th>
-                        <th>시간</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td class="font-semibold text-stone-850">주일1부</td>
-                        <td>본 예배실</td>
-                        <td>09:10</td>
-                        <td class="font-semibold text-stone-850">유초등부</td>
-                        <td>교육관 2층</td>
-                        <td>10:40</td>
-                      </tr>
-                      <tr>
-                        <td class="font-semibold text-stone-850">주일2부</td>
-                        <td>본 예배실</td>
-                        <td>11:00</td>
-                        <td class="font-semibold text-stone-850">수요예배</td>
-                        <td>본 예배실</td>
-                        <td>오후 7:30</td>
-                      </tr>
-                      <tr>
-                        <td class="font-semibold text-stone-850">새벽예배</td>
-                        <td>본 예배실</td>
-                        <td>05:00</td>
-                        <td class="font-semibold text-stone-850">금요예배</td>
-                        <td>본 예배실</td>
-                        <td>오후 8:30</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-              </div>
-            </div>
-
-            <!-- (오른쪽 절반) [3면]: 예배 순서 (Liturgy) -->
-            <div class="flex flex-col h-full justify-between pl-4">
+            <!-- (왼쪽 절반) [2면]: 예배 순서 (Liturgy) & 다음주 봉사표 -->
+            <div class="flex flex-col h-full justify-between pr-4 relative">
               <div>
                 <!-- 예배순서 타이틀 -->
-                <div class="text-center relative py-1 mb-2 border-b-2 border-double border-stone-850">
-                  <h2 class="font-serif text-xl font-bold tracking-widest text-[#1c1917]">예배 순서</h2>
+                <div class="text-center relative py-1 mb-1 border-b border-stone-800">
+                  <h2 class="font-serif text-sm font-bold tracking-widest text-[#1c1917]">예배 순서</h2>
                 </div>
                 
                 <!-- 날짜 및 인도자 및 예배 정보 -->
-                <div class="flex justify-between items-center text-[10px] text-gray-600 mb-2 px-1 font-serif">
+                <div class="flex justify-between items-center text-[8.5px] text-gray-600 mb-1 px-1 font-serif">
                   <span id="preview-date-liturgy">2026년 6월 21일</span>
-                  <span>인도: <strong id="preview-presider" class="font-bold text-gray-800">김제희 목사</strong></span>
+                  <span>인도: <strong id="preview-presider" class="font-bold text-gray-850">김제희 목사</strong></span>
                 </div>
 
                 <!-- 예배 순서 타임라인 (수정 직접 연결 및 도트 라인 장식) -->
-                <div class="space-y-1 text-xs">
+                <div class="space-y-1 text-[9.5px]">
                   
                   <div class="flex items-center">
-                    <span class="font-bold text-gray-850 font-serif">참회의 기도</span>
+                    <span class="font-bold text-stone-900 font-serif">참회의 기도</span>
                     <span class="leader-dots"></span>
-                    <span class="text-gray-500 font-medium">다 같 이</span>
+                    <span class="text-stone-500 font-medium">다 같 이</span>
                   </div>
 
                   <div class="flex items-center">
-                    <span class="font-bold text-gray-850 font-serif">예배부름</span>
+                    <span class="font-bold text-stone-900 font-serif">예배부름</span>
                     <span class="leader-dots"></span>
-                    <span class="text-gray-500 font-medium select-none">인 도 자</span>
+                    <span class="text-stone-700 font-medium select-none">김제희 목사</span>
                   </div>
 
                   <div class="flex items-center">
-                    <span class="font-bold text-gray-850 font-serif">신앙고백</span>
+                    <span class="font-bold text-stone-900 font-serif">신앙고백</span>
                     <span class="leader-dots"></span>
-                    <span class="text-xs text-stone-800 bg-stone-100 border border-stone-200 px-1 py-0.5 rounded mr-3 select-none">사도신경</span>
-                    <span class="text-gray-500 font-medium">다 같 이</span>
+                    <span class="text-[8px] text-stone-600 bg-stone-100 border border-stone-200 px-1 py-0.5 rounded mr-3 select-none">사도신경</span>
+                    <span class="text-stone-500 font-medium">다 같 이</span>
                   </div>
 
                   <div class="flex items-center">
-                    <span class="font-bold text-gray-850 font-serif">찬 양</span>
+                    <span class="font-bold text-stone-900 font-serif">찬 양</span>
                     <span class="leader-dots"></span>
-                    <span id="preview-hymns" class="text-xs text-gray-700 font-medium mr-3 text-right max-w-[130px] truncate">421장, 191장</span>
-                    <span class="text-gray-500 font-medium">다 같 이</span>
+                    <span id="preview-hymns" class="text-[8.5px] text-stone-700 mr-3 text-right max-w-[140px] truncate">421장, 191장, 함께 지어져 가네</span>
+                    <span class="text-stone-500 font-medium">다 같 이</span>
                   </div>
 
                   <div class="flex items-center">
-                    <span class="font-bold text-gray-850 font-serif">대표기도</span>
+                    <span class="font-bold text-stone-900 font-serif">대표기도</span>
                     <span class="leader-dots"></span>
-                    <div class="text-[10px] text-right text-gray-700 leading-tight mr-3">
+                    <div class="text-[8.5px] text-right text-stone-700 mr-3 leading-tight">
                       <div>1부: <span id="preview-prayer1" class="font-semibold">윤명순 권사</span></div>
                       <div>2부: <span id="preview-prayer2" class="font-semibold">김동주 장로</span></div>
                     </div>
                   </div>
 
                   <div class="flex items-center">
-                    <span class="font-bold text-gray-850 font-serif">소식/광고</span>
+                    <span class="font-bold text-stone-900 font-serif">찬 양</span>
                     <span class="leader-dots"></span>
-                    <span class="text-gray-500 font-medium">인 도 자</span>
+                    <span class="text-[8.5px] text-stone-700 mr-3">사랑하는 자여</span>
+                    <span class="text-stone-500 font-medium">다 같 이</span>
                   </div>
 
                   <div class="flex items-center">
-                    <span class="font-bold text-gray-850 font-serif">봉헌찬양</span>
+                    <span class="font-bold text-stone-900 font-serif">광 고</span>
                     <span class="leader-dots"></span>
-                    <span id="preview-offertory" class="text-xs text-gray-700 mr-3 text-right max-w-[130px] truncate">나의 모습 나의 소유</span>
-                    <span class="text-gray-500 font-medium">다 같 이</span>
+                    <span class="text-stone-700 font-medium">김제희 목사</span>
                   </div>
 
                   <div class="flex items-center">
-                    <span class="font-bold text-gray-850 font-serif">봉 헌</span>
+                    <span class="font-bold text-stone-900 font-serif">봉헌찬양</span>
                     <span class="leader-dots"></span>
-                    <div class="text-[10px] text-right text-gray-700 leading-tight mr-3">
+                    <span id="preview-offertory" class="text-[8.5px] text-stone-700 mr-3 truncate max-w-[130px]">나의 모습 나의 소유</span>
+                    <span class="text-stone-500 font-medium">다 같 이</span>
+                  </div>
+
+                  <div class="flex items-center">
+                    <span class="font-bold text-stone-900 font-serif">봉 헌</span>
+                    <span class="leader-dots"></span>
+                    <div class="text-[8.5px] text-right text-stone-700 mr-3 leading-tight">
                       <div>1부: <span id="preview-offertory-person1" class="font-semibold">윤유순 권사</span></div>
                       <div>2부: <span id="preview-offertory-person2" class="font-semibold">정희연 집사</span></div>
                     </div>
                   </div>
 
                   <div class="flex items-center">
-                    <span class="font-bold text-gray-850 font-serif">봉헌기도</span>
+                    <span class="font-bold text-stone-900 font-serif">봉헌기도</span>
                     <span class="leader-dots"></span>
-                    <span class="text-gray-500 font-medium">인 도 자</span>
+                    <span class="text-stone-700 font-medium select-none">김제희 목사</span>
                   </div>
 
                   <div class="flex items-center">
-                    <span class="font-bold text-gray-850 font-serif">말씀봉독</span>
+                    <span class="font-bold text-stone-900 font-serif">말씀봉독</span>
                     <span class="leader-dots"></span>
-                    <span id="preview-bible" class="text-[10px] text-gray-700 mr-3 text-right max-w-[130px] truncate">마태복음 5:44-48</span>
-                    <span class="text-gray-500 font-medium">다 같 이</span>
+                    <span id="preview-bible" class="text-[8.5px] text-stone-700 mr-3 text-right max-w-[130px] truncate">1부 마 5:44-48 / 2부 창 49:28</span>
+                    <span class="text-stone-500 font-medium">다 같 이</span>
                   </div>
 
-                  <div class="flex items-center py-0.5">
+                  <div class="flex items-center">
                     <span class="font-bold text-[#b45309] font-serif">설 교</span>
                     <span class="leader-dots"></span>
-                    <div class="text-[10px] text-right text-gray-700 leading-tight mr-3 max-w-[150px]">
-                      <div class="truncate text-stone-900 font-bold" id="preview-sermon1">1부: 화평케 하는 자</div>
-                      <div class="truncate text-stone-900 font-bold" id="preview-sermon2">2부: 축복의 길</div>
+                    <div class="text-[8.5px] text-right text-stone-900 mr-3 leading-tight font-bold max-w-[150px]">
+                      <div class="truncate" id="preview-sermon1">1부: 화평케 하는 하나님의 자녀</div>
+                      <div class="truncate" id="preview-sermon2">2부: 축복의 길</div>
                     </div>
-                    <span class="text-gray-500 font-medium">설교자</span>
+                    <span class="text-stone-700 font-medium">김제희 목사</span>
                   </div>
 
                   <div class="flex items-center">
-                    <span class="font-bold text-gray-850 font-serif">결단찬양</span>
+                    <span class="font-bold text-stone-900 font-serif">찬 양</span>
                     <span class="leader-dots"></span>
-                    <span class="text-xs text-gray-700 mr-3 select-none">빛으로 인도하소서</span>
-                    <span class="text-gray-500 font-medium">다 같 이</span>
+                    <span class="text-[8.5px] text-stone-700 mr-3">함께 지어져가네</span>
+                    <span class="text-stone-500 font-medium">다 같 이</span>
                   </div>
 
                   <div class="flex items-center">
-                    <span class="font-bold text-gray-850 font-serif">축 도</span>
+                    <span class="font-bold text-stone-900 font-serif">축 도</span>
                     <span class="leader-dots"></span>
-                    <span class="text-gray-500 font-medium">설교자</span>
+                    <span class="text-stone-700 font-medium">김제희 목사</span>
                   </div>
 
                 </div>
               </div>
 
-              <!-- 하단 설교 말씀 노트 기록장치 (3면에 기입 가능해짐) -->
-              <div class="mt-2.5 flex-1 flex flex-col justify-end">
-                <div class="border border-stone-300 rounded-lg p-2.5 bg-stone-50/50 flex-1 flex flex-col justify-between" id="sermon-note-container" contenteditable="true">
-                  <div>
-                    <h4 class="text-[10px] font-bold text-stone-850 border-b border-stone-200 pb-0.5 mb-1 text-center font-serif">📝 설교 말씀 노트 기록</h4>
-                    <p class="text-[9px] text-stone-500 italic text-center">“기억에 남는 주님의 은혜와 다짐을 적어보세요.”</p>
+              <!-- 하단 [다음 주 예배 봉사] (직접편집 테이블) -->
+              <div class="mt-3">
+                <div class="text-center font-bold text-[8.5px] text-stone-900 border-t border-b border-stone-800 py-0.5 mb-1 bg-stone-50 font-serif">
+                  다음 주 예배 / 봉사
+                </div>
+                <table class="w-full text-[7.5px] border-collapse text-center bulletin-table border border-stone-300" id="next-service-table" contenteditable="true">
+                  <thead>
+                    <tr class="bg-stone-50 font-bold border-b border-stone-300 text-stone-700">
+                      <th class="py-0.5 border-r border-stone-200 w-[12%]">예배</th>
+                      <th class="py-0.5 border-r border-stone-200 w-[16%]">대표기도</th>
+                      <th class="py-0.5 border-r border-stone-200 w-[16%]">헌금봉헌</th>
+                      <th class="py-0.5 border-r border-stone-200 w-[36%]">성찬배종위원</th>
+                      <th class="py-0.5 w-[20%]">청소 / 봉사</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-stone-200">
+                      <td class="font-bold border-r border-stone-200 py-1 bg-stone-50/50">1부</td>
+                      <td class="border-r border-stone-200">김성화</td>
+                      <td class="border-r border-stone-200">윤유순</td>
+                      <td class="border-r border-stone-200">김광선, 임상섭, 김영수</td>
+                      <td class="font-bold text-stone-900">사랑 6/27</td>
+                    </tr>
+                    <tr>
+                      <td class="font-bold border-r border-stone-200 py-1 bg-stone-50/50">2부</td>
+                      <td class="border-r border-stone-200">임춘옥</td>
+                      <td class="border-r border-stone-200">정희연</td>
+                      <td class="border-r border-stone-200">김길남, 이성실, 김동주</td>
+                      <td class="text-stone-400 font-bold">(next 동행)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+
+            <!-- (오른쪽 절반) [3면]: 설교 노트 및 비전 선언 (Inside Right) -->
+            <div class="flex flex-col h-full justify-between pl-4 relative">
+              <!-- 설교 노트 타이틀 및 본문 기록장치 -->
+              <div class="flex-1 flex flex-col justify-start">
+                <div class="text-center relative py-1 mb-1 border-b border-stone-800">
+                  <h2 class="font-serif text-sm font-bold tracking-widest text-[#1c1917]">설교를 통해 나에게 주시는 하나님의 말씀</h2>
+                </div>
+                
+                <div class="text-center text-[9px] text-[#7c2d12] font-serif font-bold italic my-1 px-4 leading-relaxed">
+                  “한 줄의 문장이 나에게 주시는 하나님의 음성이 되고 기도의 제목이 됩니다”
+                </div>
+
+                <div class="border border-stone-300 rounded-lg p-2.5 bg-stone-50/40 flex-1 flex flex-col mt-1.5" id="sermon-note-container" contenteditable="true" style="min-height: 180px;">
+                  <div class="flex-1 sermon-note-lined-bg text-[9.5px] text-stone-600 outline-none leading-[18px]">
+                    여기에 설교 말씀을 메모하거나 주일에 주신 주님의 음성과 은혜를 기록해보세요...
                   </div>
-                  
-                  <div class="sermon-note-box h-12 mt-1.5 rounded border border-stone-200 text-[10px] text-stone-600 p-1 pointer-events-none">
-                    성도님의 귀한 고백을 이곳에 타이핑해서 영구 보존할 수 있습니다...
-                  </div>
+                </div>
+              </div>
+
+              <!-- 하단 가치관 & 비전 선언문 구역 -->
+              <div class="mt-4 flex justify-between items-end border-t border-stone-200 pt-2">
+                <!-- 데코레이션 로고/마크 -->
+                <div class="w-[30%] opacity-20 pr-2">
+                  <svg viewBox="0 0 100 100" class="w-14 h-14 text-emerald-700"><path fill="currentColor" d="M50 0C22.4 0 0 22.4 0 50s22.4 50 50 50 50-22.4 50-50S77.6 0 50 0zm0 90C28 90 10 72 10 50S28 10 50 10s40 18 40 40-18 40-40 40zM35 50c0-8.3 6.7-15 15-15s15 6.7 15 15-6.7 15-15 15-15-6.7-15-15z"/></svg>
+                </div>
+
+                <!-- 공동체 실천 고백 (우측 정렬) -->
+                <div class="w-[68%] text-[8px] leading-relaxed text-emerald-850 font-serif">
+                  <div class="font-bold text-emerald-900 text-[9px] mb-1 border-b border-emerald-200 pb-0.5">예수님이 주인이신 빛나는교회는...</div>
+                  <ul class="space-y-0.5 list-none pl-0.5">
+                    <li class="flex items-start gap-1"><span class="text-emerald-700 select-none">•</span> <span>말씀이 삶이 되는 공동체(수1:8)</span></li>
+                    <li class="flex items-start gap-1"><span class="text-emerald-700 select-none">•</span> <span>영광 진리로 예배 드리는 공동체(요4:23,24)</span></li>
+                    <li class="flex items-start gap-1"><span class="text-emerald-750 select-none">•</span> <span>가정을 세우고, 다음세대를 세우는 공동체(창18:19)</span></li>
+                    <li class="flex items-start gap-1"><span class="text-emerald-750 select-none">•</span> <span>영혼을 구원하고 제자 삼는 공동체(마28:18-20)</span></li>
+                    <li class="flex items-start gap-1"><span class="text-emerald-750 select-none">•</span> <span>가정교회를 개척하고 세계 선교를 이뤄가는 공동체(행2)</span></li>
+                    <li class="flex items-start gap-1"><span class="text-emerald-750 select-none">•</span> <span>하나님이 기뻐하시는 사역을 감당하는 공동체(요10)</span></li>
+                  </ul>
                 </div>
               </div>
 
@@ -885,39 +972,28 @@
         'input-denom': '기독교대한성결교회',
         'input-date': '2026년 6월 21일',
         'input-week': '29주차 / 통권 22',
-        'input-church': '빛나는 주보선교회',
-        'input-slogan': '만민을 제자로 삼는',
-        'input-scripture': '“그리스도의 사랑으로 하나 되어 세상 사람들을 그리스도의 충성된 제자로 파송하는 은혜로운 교회” (눅 6:46~49)',
-        'input-pastor': '김 제 희 목사 (Ph.D)',
+        'input-church': '빛나는 교회',
+        'input-slogan': '“만민을 제자 삼는 제자 공동체 되게 하소서”',
+        'input-scripture': '(눅6:46~49)',
+        'input-pastor': '김제희 목사',
         
-        'input-announcements': '빛나는 장로교회에 오신 새가족 여러분을 주님의 이름으로 진심으로 환영하고 축복합니다!\n여름맞이 청장년 연합 성경 세미나: 7월 12일 화요일 저녁 7시 30분 개막\n말씀 전파 대행진 선지서 통독 40일 학교: 6월 24일 ~ 8월 1일까지 진행됩니다.\n이번 주 제직 직원회 소집 안내: 주일 낮 식사 직후 본 교육관 3층 회의실\n예수사랑 수요 기도 모임: 매주 수요일 저녁 7시 30분 (교회 찬양팀 특송 찬양 예정)',
+        'input-announcements': '빛나는교회에 오신 여러분들을 축복합니다. 등록/방문카드를 작성해 주시기를 부탁드립니다.\n성경공부 셰퍼드라이프: 화요일 오후 7:30\n말씀행진 선지서 40일 : 5/29~7/1\n직원회: 식사 후 12시 50분\n사역일정:\n6월 24일 수요예배 "경배와 찬양"\n6월 28일 영화설교 "태극기 휘날리며" / 주일 1부 예배',
         
-        'input-schedule': '[영화설교 명작선] 주일 1부 대예배\n6월 21일(주일) "오빠 생각" (인도자: 김제희 목사)\n6월 28일(주일) "태극기 휘날리며" (인도자: 김제희 목사)\n7월 05일(주일) "포화 속으로" (강사: 고형원 대표)\n7월 12일(주일) "웰컴투 동막골" (특별 연합선교팀 찬양)',
+        'input-schedule': '[영화설교 일정] 주일 1부 예배\n6월 21일(주일) "오빠 생각"\n6월 28일(주일) "태극기 휘날리며"\n7월 5일(주일) "포화 속으로"\n7월 12일(주일) "고지전"\n7월 19일(주일) "웰컴투 동막골"\n7월 24일(금) 북한선교 기도회 / 강사: 고형원 대표',
         
-        'input-oversea': '튀니지 선교지 (김원구, 전혜온 선교사님)\n러시아 침례 (이훈희, 강정화 선교사님)\n인도네시아 반둥 (조원경, 세미 협업 선교사)\n방글라데시 다카 (유창수 선교사 패밀리)',
-        'input-domestic': '하늘선 성경학교 교육원 (장영숙 교육사)\n하나됨 다문화 선교교회 (이동현 목사)\n기드온 북방 선교 연맹 (김경회 간사)',
+        'input-oversea': '튀니지(김원구,전혜온)\n러시아(이훈희,강정화,시온,하온,시이)\n인도네시아(이성현,조원경,세라,세미)\n대만(김규초,주은순)\n방글라데시(유창수,김순혜,은성,은찬)\n야하선교회(중국신학생선교)\n케냐(현동석,김슬아)',
+        'input-domestic': '교육선교사(고미란)\n하늘선교교육문화원(장영숙)\n하나됨교회(이동현,장미진,한결,한울)\n장유제일교회(오충영)\n오송길교회(김봉기,정경희,예서,예린,예솔)\n모퉁이돌선교회(북방선교/성경배달사역)\n기드온동족선교회(임경희)\n서울신학대학전도폭발\n엄사중학교',
         
-        'input-presider': '김제희 담임목사',
+        'input-presider': '김제희 목사',
         'input-hymns': '421장, 191장, 함께 지어져 가네',
-        'input-prayer1': '윤명순 안수권사',
-        'input-prayer2': '김동주 시무장로',
-        'input-offertory': '나의 모습 나의 소유 (321장)',
+        'input-prayer1': '윤명순 권사',
+        'input-prayer2': '김동주 장로',
+        'input-offertory': '나의 모습 나의 소유',
         'input-offertory-person1': '윤유순 권사',
         'input-offertory-person2': '정희연 집사',
-        'input-bible': '1부 마태복음 5:44-48 / 2부 창세기 49:28',
-        'input-sermon1': '1부: 화평케 하는 하느님의 일꾼',
-        'input-sermon2': '2부: 야곱이 물려준 축복의 전폭적 비밀',
-
-        // 월별 테마 번호 저장
-        'month-select': '6'
-      };
-
-      // 월별 표지 테마 색상 구성 템플릿
-      const THEME_COLORS = {
-        'winter': { bgGradient: '#f0f9ff', textAccent: '#0369a1', badgeBg: '#e0f2fe', placeholder: 'E0F2FE/0369A1' },
-        'spring': { bgGradient: '#fff1f2', textAccent: '#be185d', badgeBg: '#ffe4e6', placeholder: 'FFE4e6/BE185D' },
-        'summer': { bgGradient: '#ecfdf5', textAccent: '#047857', badgeBg: '#d1fae5', placeholder: 'D1FAE5/047857' },
-        'autumn': { bgGradient: '#fffbeb', textAccent: '#b45309', badgeBg: '#fef3c7', placeholder: 'FEF3C7/B45309' }
+        'input-bible': '1부 마 5:44-48 / 2부 창 49:28',
+        'input-sermon1': '1부: 화평케 하는 하나님의 자녀',
+        'input-sermon2': '2부: 축복의 길'
       };
 
       // 입력 데이터 및 직접편집 innerHTML 캐시 홀더
@@ -932,8 +1008,7 @@
 
       // 1. LocalStorage 혹은 기본값에서 불러오기 구현
       function loadDataFromStorage() {
-        // 기존 localStorage 여부 체크
-        const savedRaw = localStorage.getItem('bulletin_custom_store_v1');
+        const savedRaw = localStorage.getItem('bulletin_custom_store_v2');
         if (savedRaw) {
           try {
             cachedDataStore = JSON.parse(savedRaw);
@@ -966,28 +1041,23 @@
             el.innerHTML = cachedDataStore[cacheId];
           }
         });
-
-        // 테마 복구 실행
-        const currentMonth = cachedDataStore['month-select'] || '6';
-        updateMonthTheme(currentMonth);
       }
 
       // 폼 필드 변경 상태 영구 저장 장치
       function saveFieldState(id, val) {
         cachedDataStore[id] = val;
-        localStorage.setItem('bulletin_custom_store_v1', JSON.stringify(cachedDataStore));
+        localStorage.setItem('bulletin_custom_store_v2', JSON.stringify(cachedDataStore));
       }
 
       // 우측 직접 가필 구역 변경 트리거 및 실시간 커밋
       function setupEditableChangeListeners() {
         const editableElements = document.querySelectorAll('[contenteditable="true"]');
         editableElements.forEach(el => {
-          // 키보드 가입력 발생 및 블러 해제 시 자동 저장
           ['input', 'blur'].forEach(eventType => {
             el.addEventListener(eventType, () => {
               const cacheId = `editable_${el.id}`;
               cachedDataStore[cacheId] = el.innerHTML;
-              localStorage.setItem('bulletin_custom_store_v1', JSON.stringify(cachedDataStore));
+              localStorage.setItem('bulletin_custom_store_v2', JSON.stringify(cachedDataStore));
             });
           });
         });
@@ -999,7 +1069,6 @@
         if (target) {
           target.innerText = text;
         }
-        // 트리거링한 input 소스 검색
         const inputSource = document.querySelector(`[oninput*="${targetId}"]`);
         if (inputSource) {
           saveFieldState(inputSource.id, text);
@@ -1011,14 +1080,12 @@
         const target = document.getElementById(targetId);
         if (!target) return;
 
-        // 줄바꿈 기준 분할
         const lines = text.split('\n').filter(line => line.trim() !== '');
         
         let htmlContent = '';
         lines.forEach((line, idx) => {
-          // 2면 알리는 말씀 전용은 볼드 체와 간격 하이라이트 매핑 지원
           if (isNumbered) {
-            htmlContent += `<li class="mb-1 bg-slate-50/50 hover:bg-slate-100/80 p-1 rounded-md transition duration-100"><span class="font-bold text-slate-900 border-r border-slate-300 pr-1.5 mr-1.5">${idx + 1}</span>${highlightSpecialTerms(line)}</li>`;
+            htmlContent += `<li class="mb-0.5 hover:bg-slate-100/80 p-0.5 rounded transition duration-100"><span class="font-bold text-emerald-800 border-r border-slate-300 pr-1 mr-1">${idx + 1}</span>${highlightSpecialTerms(line)}</li>`;
           } else {
             htmlContent += `<li class="mb-0.5">${line}</li>`;
           }
@@ -1026,7 +1093,6 @@
 
         target.innerHTML = htmlContent;
 
-        // 원본 구역 저장
         const inputSource = document.querySelector(`[oninput*="${targetId}"]`);
         if (inputSource) {
           saveFieldState(inputSource.id, text);
@@ -1042,11 +1108,11 @@
         let htmlStr = '';
         lines.forEach(line => {
           if (line.startsWith('[')) {
-            htmlStr += `<li class="list-none font-bold text-[#b45309] border-b border-dashed border-amber-200 pb-0.5 mt-1.5 mb-1 text-[10px]">${line}</li>`;
-          } else if (line.includes('"') || line.includes('설교')) {
-            htmlStr += `<li class="mb-0.5 text-[9.5px] font-semibold text-slate-900 hover:text-blue-900">${line}</li>`;
+            htmlStr += `<li class="list-none font-bold text-amber-800 border-b border-dashed border-amber-200 pb-0.5 mt-1 mb-0.5 text-[8.5px]">${line}</li>`;
+          } else if (line.includes('"') || line.includes('예배')) {
+            htmlStr += `<li class="mb-0.5 text-[8.5px] font-semibold text-slate-900">${line}</li>`;
           } else {
-            htmlStr += `<li class="mb-0.5 text-[9px] text-slate-600">${line}</li>`;
+            htmlStr += `<li class="mb-0.5 text-[8px] text-slate-650">${line}</li>`;
           }
         });
 
@@ -1063,8 +1129,8 @@
         let text = str;
         text = text.replace(/(성경공부|셰퍼드라이프)/g, '<b class="text-blue-700 font-bold">$1</b>');
         text = text.replace(/(선지서 40일|통독)/g, '<b class="text-indigo-700 font-bold border-b-2 border-indigo-200">$1</b>');
-        text = text.replace(/(직원회|소집)/g, '<b class="text-rose-600 font-extrabold bg-rose-50 px-1 rounded border border-rose-200">$1</b>');
-        text = text.replace(/(수요 기도|예배|예배실)/g, '<b class="text-emerald-700 font-bold">$1</b>');
+        text = text.replace(/(직원회)/g, '<b class="text-rose-600 font-bold bg-rose-50 px-1 rounded border border-rose-200">$1</b>');
+        text = text.replace(/(수요예배|금요예배|수요예배)/g, '<b class="text-emerald-700 font-bold">$1</b>');
         return text;
       }
 
@@ -1096,40 +1162,6 @@
         syncText(cachedDataStore['input-sermon2'] || DEFAULT_BULLETIN_DATA['input-sermon2'], 'preview-sermon2');
       }
 
-      // 2. 월별 세부 테마 변경 및 배경 이미지 설정
-      function updateMonthTheme(monthStr) {
-        const monthNum = parseInt(monthStr);
-        let themeKey = 'summer'; // 디폴트
-
-        if ([12, 1, 2].includes(monthNum)) {
-          themeKey = 'winter';
-        } else if ([3, 4, 5].includes(monthNum)) {
-          themeKey = 'spring';
-        } else if ([6, 7, 8].includes(monthNum)) {
-          themeKey = 'summer';
-        } else if ([9, 10, 11].includes(monthNum)) {
-          themeKey = 'autumn';
-        }
-
-        const theme = THEME_COLORS[themeKey];
-        const coverBg = document.getElementById('cover-bg');
-        const coverPageArea = document.getElementById('cover-page-area');
-
-        if (coverBg) {
-          // 배경 placeholder 이미지 교환
-          const bgUrl = `https://placehold.co/1754x2480/${theme.placeholder}?text=${monthNum}Month+Grace`;
-          coverBg.style.backgroundImage = `url('${bgUrl}')`;
-          coverBg.style.opacity = '0.08'; // 부드러운 불투명도 조율
-        }
-
-        if (coverPageArea) {
-          // 간접 테마 보정 그라디언트 적용
-          coverPageArea.className = `flex flex-col h-full justify-between pl-4 relative p-4 rounded-lg bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white via-[${theme.bgGradient}] to-white transition-all duration-300`;
-        }
-
-        saveFieldState('month-select', monthStr);
-      }
-
       // 3. 확대/축소 화면 비율 Zoom 조절
       function applyZoom(zoomVal) {
         const sheets = document.querySelectorAll('.a4-sheet');
@@ -1137,11 +1169,9 @@
         
         sheets.forEach(sheet => {
           sheet.style.transform = `scale(${zoomDec})`;
-          // 스크린 레이아웃 유지되도록 마진을 동적으로 상쇄 조정
           const originalHeight = 210; // mm
           const scaledHeight = originalHeight * zoomDec;
           const diffPx = (sheet.offsetHeight * (1 - zoomDec)) / 2;
-          
           sheet.style.marginBottom = `-${diffPx * 1.8}px`;
         });
 
@@ -1172,8 +1202,8 @@
 
       // 4. 전체 리셋 기능
       function confirmReset() {
-        if (confirm("🚨 주의: 저장된 모든 데이터 및 직접 기입하신 주보 정보가 초기화되고 순정 템플릿으로 복원됩니다. 계속하시겠습니까?")) {
-          localStorage.removeItem('bulletin_custom_store_v1');
+        if (confirm("🚨 주의: 저장된 모든 데이터 및 직접 기입하신 주보 정보가 초기화되고 기본값으로 복원됩니다. 계속하시겠습니까?")) {
+          localStorage.removeItem('bulletin_custom_store_v2');
           window.location.reload();
         }
       }
