@@ -1432,6 +1432,41 @@
           });
         }
       }
+
+      function getLeaderPageUrl() {
+        if (window.location.protocol === 'file:') {
+          return window.location.href.replace('index.html', 'leader.html');
+        }
+        if (window.location.port === '3000' || window.location.hostname === 'localhost') {
+          return window.location.origin + '/leader';
+        }
+        const url = window.location.href.split('?')[0].split('#')[0];
+        if (url.endsWith('.html')) {
+          return url.substring(0, url.lastIndexOf('/')) + '/leader.html';
+        }
+        return url.endsWith('/') ? url + 'leader.html' : url + '/leader.html';
+      }
+
+      function copyLeaderLink() {
+        const input = document.getElementById('leader-link-input');
+        if (!input) return;
+        
+        input.select();
+        input.setSelectionRange(0, 99999);
+        
+        try {
+          navigator.clipboard.writeText(input.value).then(() => {
+            alert("📋 모바일 보고 링크가 복사되었습니다! 카카오톡 단톡방에 붙여넣기(Ctrl+V) 하세요.");
+          }).catch(err => {
+            console.error("Clipboard copy failed:", err);
+            document.execCommand('copy');
+            alert("📋 모바일 보고 링크가 복사되었습니다!");
+          });
+        } catch (e) {
+          document.execCommand('copy');
+          alert("📋 모바일 보고 링크가 복사되었습니다!");
+        }
+      }
     </script>
 
   </body>
