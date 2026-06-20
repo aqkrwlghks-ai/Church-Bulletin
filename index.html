@@ -256,19 +256,6 @@
           </button>
         </div>
 
-        <!-- 3차 도구: 카톡 보고용 리더 모바일 링크 복사 구역 -->
-        <div class="mt-3 bg-stone-50 border border-stone-200 rounded-lg p-2.5 flex flex-col gap-1.5 shadow-xs">
-          <div class="flex justify-between items-center">
-            <span class="text-[10px] font-bold text-stone-500 uppercase tracking-wider">📱 리더 보고용 모바일 링크</span>
-            <span class="text-[9px] text-emerald-600 font-semibold cursor-pointer select-none hover:underline" onclick="copyLeaderLink()">단독 복사</span>
-          </div>
-          <div class="flex gap-1.5">
-            <input type="text" id="leader-link-input" readonly class="flex-1 bg-stone-100 border border-stone-200 rounded px-2 py-1 text-[10px] text-stone-600 font-mono select-all focus:outline-none" value="">
-            <button onclick="copyLeaderLink()" class="bg-stone-850 hover:bg-stone-900 text-white text-[10px] font-medium py-1 px-2.5 rounded shadow-xs transition duration-150 cursor-pointer">
-              복사
-            </button>
-          </div>
-        </div>
       </div>
 
       <!-- 양식 채우기 구역 (스크롤 구역) -->
@@ -411,6 +398,20 @@
           </div>
         </div>
 
+      </div>
+
+      <!-- 사이드바 하단 고정 구역 (리더 모바일 링크) -->
+      <div class="p-4 border-t border-stone-200 bg-stone-50/90 flex flex-col gap-1.5 shadow-xs">
+        <div class="flex justify-between items-center">
+          <span class="text-[10px] font-bold text-stone-500 uppercase tracking-wider">📱 리더 보고용 모바일 링크</span>
+          <span class="text-[9px] text-emerald-600 font-semibold cursor-pointer select-none hover:underline" onclick="copyLeaderLink()">단독 복사</span>
+        </div>
+        <div class="flex gap-1.5">
+          <input type="text" id="leader-link-input" readonly class="flex-1 bg-white border border-stone-200 rounded px-2 py-1 text-[10px] text-stone-600 font-mono select-all focus:outline-none" value="">
+          <button onclick="copyLeaderLink()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-[10px] font-medium py-1 px-2.5 rounded shadow-xs transition duration-150 cursor-pointer">
+            복사
+          </button>
+        </div>
       </div>
 
     </aside>
