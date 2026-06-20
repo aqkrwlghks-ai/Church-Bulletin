@@ -243,6 +243,18 @@
             전체 초기화
           </button>
         </div>
+
+        <!-- 2차 도구 버튼 (동기화 & 새 주차 시작) -->
+        <div class="mt-2 grid grid-cols-2 gap-2">
+          <button onclick="syncDataFromServer()" class="flex items-center justify-center gap-1.5 bg-sky-600 hover:bg-sky-700 text-white font-medium py-1.5 px-3 rounded-lg transition duration-150 text-xs cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+            리더 통계 동기화
+          </button>
+          <button onclick="startNewWeek()" class="flex items-center justify-center gap-1.5 bg-amber-600 hover:bg-amber-700 text-white font-medium py-1.5 px-3 rounded-lg transition duration-150 text-xs cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+            새 주차 시작 (누적)
+          </button>
+        </div>
       </div>
 
       <!-- 양식 채우기 구역 (스크롤 구역) -->
@@ -254,7 +266,7 @@
             <span>✨</span> 실시간 본문 직접 가필 시스템
           </p>
           <p class="mt-1 leading-relaxed text-[11px] text-amber-800">
-            오른쪽 A4 주보 미리보기의 <b>글자나 표 내용</b>을 마우스로 콕 클릭하여 편집기처럼 자유롭게 수정할 수 있습니다! 전체 편집 내용은 브라우저에 실시간 자동 저장됩니다.
+            오른쪽 A4 주보 미리보기의 <b>글자나 표 내용</b>을 마우스로 콕 클릭하여 편집기처럼 자유롭게 수정할 수 있습니다! 전체 편집 내용은 서버에 실시간 자동 저장됩니다.
           </p>
         </div>
 
@@ -453,85 +465,8 @@
                           <th colspan="2" class="py-0.5">성경읽기</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr class="border-b border-stone-200">
-                          <td class="font-bold border-r border-stone-200">김광선</td>
-                          <td class="border-r border-stone-200"></td>
-                          <td class="border-r border-stone-200">460</td>
-                          <td>14602</td>
-                        </tr>
-                        <tr class="border-b border-stone-200">
-                          <td class="font-bold border-r border-stone-200">김길남</td>
-                          <td class="border-r border-stone-200"></td>
-                          <td class="border-r border-stone-200">104</td>
-                          <td>5286</td>
-                        </tr>
-                        <tr class="border-b border-stone-200">
-                          <td class="font-bold border-r border-stone-200">김동주</td>
-                          <td class="border-r border-stone-200 font-bold text-red-650">직</td>
-                          <td class="border-r border-stone-200"></td>
-                          <td>530</td>
-                        </tr>
-                        <tr class="border-b border-stone-200">
-                          <td class="font-bold border-r border-stone-200">김애신</td>
-                          <td class="border-r border-stone-200"></td>
-                          <td class="border-r border-stone-200">200</td>
-                          <td>3688</td>
-                        </tr>
-                        <tr class="border-b border-stone-200">
-                          <td class="font-bold border-r border-stone-200">조영숙</td>
-                          <td class="border-r border-stone-200"></td>
-                          <td class="border-r border-stone-200">125</td>
-                          <td>4184</td>
-                        </tr>
-                        <tr class="border-b border-stone-200">
-                          <td class="font-bold border-r border-stone-200">윤명순</td>
-                          <td class="border-r border-stone-200 font-bold text-red-650">원</td>
-                          <td class="border-r border-stone-200">160</td>
-                          <td>3373</td>
-                        </tr>
-                        <tr class="border-b border-stone-200">
-                          <td class="font-bold border-r border-stone-200">이숙용</td>
-                          <td class="border-r border-stone-200"></td>
-                          <td class="border-r border-stone-200">150</td>
-                          <td>6387</td>
-                        </tr>
-                        <tr class="border-b border-stone-200">
-                          <td class="font-bold border-r border-stone-200">임상섭</td>
-                          <td class="border-r border-stone-200"></td>
-                          <td class="border-r border-stone-200">460</td>
-                          <td>12279</td>
-                        </tr>
-                        <tr class="border-b border-stone-200">
-                          <td class="font-bold border-r border-stone-200">임춘옥</td>
-                          <td class="border-r border-stone-200 font-bold text-red-650">회</td>
-                          <td class="border-r border-stone-200">159</td>
-                          <td>4618</td>
-                        </tr>
-                        <tr class="border-b border-stone-200">
-                          <td class="font-bold border-r border-stone-200">정현숙</td>
-                          <td class="border-r border-stone-200"></td>
-                          <td class="border-r border-stone-200">300</td>
-                          <td>7861</td>
-                        </tr>
-                        <tr class="border-b border-stone-200">
-                          <td class="font-bold border-r border-stone-200">김명선</td>
-                          <td class="border-r border-stone-200"></td>
-                          <td class="border-r border-stone-200">138</td>
-                          <td>3631</td>
-                        </tr>
-                        <tr class="border-b border-stone-200">
-                          <td class="font-bold border-r border-stone-200">새가족</td>
-                          <td class="border-r border-stone-200"></td>
-                          <td class="border-r border-stone-200"></td>
-                          <td></td>
-                        </tr>
-                        <tr class="font-bold bg-stone-100 border-t border-stone-400">
-                          <td class="border-r border-stone-200">합 계</td>
-                          <td class="border-r border-stone-200"></td>
-                          <td class="border-r border-stone-200">2256</td>
-                          <td>66439</td>
-                        </tr>
+                      <tbody id="family-church-tbody">
+                        <!-- Loaded and populated dynamically from server -->
                       </tbody>
                     </table>
                   </div>
@@ -997,56 +932,186 @@
       };
 
       // 입력 데이터 및 직접편집 innerHTML 캐시 홀더
-      let cachedDataStore = {};
+      let cachedDataStore = {
+        bulletinData: {},
+        familyChurches: [],
+        editableElements: {}
+      };
 
       // 초기화 기동 시 일괄 처리
       window.addEventListener('DOMContentLoaded', () => {
-        loadDataFromStorage();
+        loadDataFromServer();
         setupEditableChangeListeners();
         applyInitialZoom();
       });
 
-      // 1. LocalStorage 혹은 기본값에서 불러오기 구현
-      function loadDataFromStorage() {
-        const savedRaw = localStorage.getItem('bulletin_custom_store_v2');
-        if (savedRaw) {
-          try {
-            cachedDataStore = JSON.parse(savedRaw);
-          } catch(e) {
-            console.error("데이터 로드 중 파싱 오류 발생. 초기 기본값 전환.", e);
-            cachedDataStore = { ...DEFAULT_BULLETIN_DATA };
-          }
-        } else {
-          cachedDataStore = { ...DEFAULT_BULLETIN_DATA };
+      // 1. 서버 API 연동 데이터 로드 및 UI 반영
+      async function loadDataFromServer() {
+        try {
+          const res = await fetch('/api/data');
+          const db = await res.json();
+          cachedDataStore = db;
+
+          // 각 폼 필드 입력값 적용
+          Object.keys(DEFAULT_BULLETIN_DATA).forEach(fieldId => {
+            const inputEl = document.getElementById(fieldId);
+            const val = db.bulletinData[fieldId] !== undefined ? db.bulletinData[fieldId] : DEFAULT_BULLETIN_DATA[fieldId];
+            if (inputEl) {
+              inputEl.value = val;
+            }
+          });
+
+          // 실시간 연동 바인딩 실행
+          triggerAllBindings();
+
+          // 가정교회 테이블 렌더링
+          renderFamilyChurchTable(db.familyChurches);
+
+          // 기타 contenteditable 영역 복원
+          const editableElements = document.querySelectorAll('[contenteditable="true"]');
+          editableElements.forEach(el => {
+            if (el.id !== 'family-church-table') {
+              const cacheId = `editable_${el.id}`;
+              if (db.editableElements[cacheId] !== undefined) {
+                el.innerHTML = db.editableElements[cacheId];
+              }
+            }
+          });
+
+        } catch (e) {
+          console.error("데이터 로딩 중 요류가 발생하여 기본 로컬 데이터셋을 이용합니다:", e);
         }
-
-        // 각 폼 필드 입력 적용 및 우측 연동 실행
-        Object.keys(DEFAULT_BULLETIN_DATA).forEach(fieldId => {
-          const inputEl = document.getElementById(fieldId);
-          const val = cachedDataStore[fieldId] !== undefined ? cachedDataStore[fieldId] : DEFAULT_BULLETIN_DATA[fieldId];
-          
-          if (inputEl) {
-            inputEl.value = val;
-          }
-        });
-
-        // 실시간 연동 바인딩 실행
-        triggerAllBindings();
-
-        // 직접 편집 구역(contenteditable) 복원
-        const editableElements = document.querySelectorAll('[contenteditable="true"]');
-        editableElements.forEach(el => {
-          const cacheId = `editable_${el.id}`;
-          if (cachedDataStore[cacheId]) {
-            el.innerHTML = cachedDataStore[cacheId];
-          }
-        });
       }
 
-      // 폼 필드 변경 상태 영구 저장 장치
-      function saveFieldState(id, val) {
-        cachedDataStore[id] = val;
-        localStorage.setItem('bulletin_custom_store_v2', JSON.stringify(cachedDataStore));
+      // 2. 동적 가정교회 렌더링 함수
+      function renderFamilyChurchTable(familyChurches) {
+        const tbody = document.getElementById('family-church-tbody');
+        if (!tbody) return;
+
+        let html = '';
+        let sumThisWeek = 0;
+        let sumCumulative = 0;
+
+        familyChurches.forEach(church => {
+          const isTotalRow = church.id === '합 계' || church.id === '총 계';
+          if (isTotalRow) return;
+
+          const attendanceText = church.attendance || '';
+          const thisWeekText = church.thisWeek > 0 ? church.thisWeek : '';
+          const cumulativeText = church.cumulative > 0 ? church.cumulative : '';
+
+          sumThisWeek += church.thisWeek || 0;
+          sumCumulative += church.cumulative || 0;
+
+          const isSpecialAttendance = ['직', '원', '회'].includes(attendanceText);
+          const attendanceClass = isSpecialAttendance ? 'font-bold text-red-600' : '';
+
+          html += `
+            <tr class="border-b border-stone-200">
+              <td class="font-bold border-r border-stone-200 py-0.5">${church.id}</td>
+              <td class="border-r border-stone-200 ${attendanceClass}">${attendanceText}</td>
+              <td class="border-r border-stone-200">${thisWeekText}</td>
+              <td>${cumulativeText}</td>
+            </tr>
+          `;
+        });
+
+        // 합계 행 출력
+        html += `
+          <tr class="font-bold bg-stone-100 border-t border-stone-400">
+            <td class="border-r border-stone-200 py-0.5">합 계</td>
+            <td class="border-r border-stone-200"></td>
+            <td class="border-r border-stone-200">${sumThisWeek > 0 ? sumThisWeek : ''}</td>
+            <td>${sumCumulative > 0 ? sumCumulative : ''}</td>
+          </tr>
+        `;
+
+        tbody.innerHTML = html;
+      }
+
+      // 3. 직접 편집 테이블에서 가정교회 정보 추출 및 역매핑
+      function extractFamilyChurchesFromTable() {
+        const tbody = document.getElementById('family-church-tbody');
+        if (!tbody) return null;
+        
+        const rows = tbody.querySelectorAll('tr');
+        const list = [];
+        
+        rows.forEach(row => {
+          const cells = row.querySelectorAll('td');
+          if (cells.length < 4) return;
+          
+          const id = cells[0].innerText.trim();
+          if (id === '합 계' || id === '총 계') return;
+          
+          const attendance = cells[1].innerText.trim();
+          const thisWeek = parseInt(cells[2].innerText.trim()) || 0;
+          const cumulative = parseInt(cells[3].innerText.trim()) || 0;
+
+          // 기존 캐시 정보 조회
+          const original = cachedDataStore.familyChurches.find(c => c.id === id);
+          const baseCumulative = original ? original.baseCumulative : (cumulative - thisWeek);
+
+          list.push({
+            id,
+            leader: id,
+            attendance,
+            thisWeek,
+            baseCumulative,
+            cumulative
+          });
+        });
+        
+        return list;
+      }
+
+      // 4. 디바운싱 기반 자동 저장 기능 (1초 대기)
+      let saveTimeout;
+      function saveToServer() {
+        clearTimeout(saveTimeout);
+        saveTimeout = setTimeout(async () => {
+          const bulletinData = {};
+          Object.keys(DEFAULT_BULLETIN_DATA).forEach(fieldId => {
+            const inputEl = document.getElementById(fieldId);
+            if (inputEl) {
+              bulletinData[fieldId] = inputEl.value;
+            } else {
+              bulletinData[fieldId] = cachedDataStore.bulletinData[fieldId] || DEFAULT_BULLETIN_DATA[fieldId];
+            }
+          });
+
+          // 가정교회 직접 편집 데이터 반영
+          const familyChurches = extractFamilyChurchesFromTable() || cachedDataStore.familyChurches;
+
+          // 기타 contenteditable 내용 반영
+          const editableElements = {};
+          const editableEls = document.querySelectorAll('[contenteditable="true"]');
+          editableEls.forEach(el => {
+            if (el.id !== 'family-church-table') {
+              editableElements[`editable_${el.id}`] = el.innerHTML;
+            }
+          });
+
+          const payload = {
+            bulletinData,
+            familyChurches,
+            editableElements
+          };
+
+          try {
+            const res = await fetch('/api/save', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            const result = await res.json();
+            if (result.success) {
+              console.log("자동 저장 및 백업이 정상 반영되었습니다.");
+            }
+          } catch (e) {
+            console.error("서버에 자동 저장을 실패했습니다:", e);
+          }
+        }, 1000);
       }
 
       // 우측 직접 가필 구역 변경 트리거 및 실시간 커밋
@@ -1055,9 +1120,16 @@
         editableElements.forEach(el => {
           ['input', 'blur'].forEach(eventType => {
             el.addEventListener(eventType, () => {
-              const cacheId = `editable_${el.id}`;
-              cachedDataStore[cacheId] = el.innerHTML;
-              localStorage.setItem('bulletin_custom_store_v2', JSON.stringify(cachedDataStore));
+              if (el.id === 'family-church-table') {
+                const updatedList = extractFamilyChurchesFromTable();
+                if (updatedList) {
+                  cachedDataStore.familyChurches = updatedList;
+                }
+              } else {
+                const cacheId = `editable_${el.id}`;
+                cachedDataStore.editableElements[cacheId] = el.innerHTML;
+              }
+              saveToServer();
             });
           });
         });
@@ -1069,10 +1141,7 @@
         if (target) {
           target.innerText = text;
         }
-        const inputSource = document.querySelector(`[oninput*="${targetId}"]`);
-        if (inputSource) {
-          saveFieldState(inputSource.id, text);
-        }
+        saveToServer();
       }
 
       // 개별 입력에서 줄바꿈 목록으로 변환하여 미리보기 렌더링
@@ -1092,11 +1161,7 @@
         });
 
         target.innerHTML = htmlContent;
-
-        const inputSource = document.querySelector(`[oninput*="${targetId}"]`);
-        if (inputSource) {
-          saveFieldState(inputSource.id, text);
-        }
+        saveToServer();
       }
 
       // 일정 리스트 HTML 변환용
@@ -1117,11 +1182,7 @@
         });
 
         target.innerHTML = htmlStr;
-
-        const inputSource = document.querySelector(`[oninput*="${targetId}"]`);
-        if (inputSource) {
-          saveFieldState(inputSource.id, text);
-        }
+        saveToServer();
       }
 
       // 특수한 단어 자동 보정 하이라이트 함수 (성경공부, 예배, 직원회 등)
@@ -1136,41 +1197,82 @@
 
       // 전체 바인딩 상태 자동화
       function triggerAllBindings() {
-        syncText(cachedDataStore['input-denom'] || DEFAULT_BULLETIN_DATA['input-denom'], 'preview-denom');
-        syncText(cachedDataStore['input-date'] || DEFAULT_BULLETIN_DATA['input-date'], 'preview-date');
-        syncText(cachedDataStore['input-date'] || DEFAULT_BULLETIN_DATA['input-date'], 'preview-date-liturgy');
-        syncText(cachedDataStore['input-week'] || DEFAULT_BULLETIN_DATA['input-week'], 'preview-week');
-        syncText(cachedDataStore['input-church'] || DEFAULT_BULLETIN_DATA['input-church'], 'preview-church');
-        syncText(cachedDataStore['input-slogan'] || DEFAULT_BULLETIN_DATA['input-slogan'], 'preview-slogan');
-        syncText(cachedDataStore['input-scripture'] || DEFAULT_BULLETIN_DATA['input-scripture'], 'preview-scripture');
-        syncText(cachedDataStore['input-pastor'] || DEFAULT_BULLETIN_DATA['input-pastor'], 'preview-pastor');
+        const bd = cachedDataStore.bulletinData;
+        syncText(bd['input-denom'] || DEFAULT_BULLETIN_DATA['input-denom'], 'preview-denom');
+        syncText(bd['input-date'] || DEFAULT_BULLETIN_DATA['input-date'], 'preview-date');
+        syncText(bd['input-date'] || DEFAULT_BULLETIN_DATA['input-date'], 'preview-date-liturgy');
+        syncText(bd['input-week'] || DEFAULT_BULLETIN_DATA['input-week'], 'preview-week');
+        syncText(bd['input-church'] || DEFAULT_BULLETIN_DATA['input-church'], 'preview-church');
+        syncText(bd['input-slogan'] || DEFAULT_BULLETIN_DATA['input-slogan'], 'preview-slogan');
+        syncText(bd['input-scripture'] || DEFAULT_BULLETIN_DATA['input-scripture'], 'preview-scripture');
+        syncText(bd['input-pastor'] || DEFAULT_BULLETIN_DATA['input-pastor'], 'preview-pastor');
         
-        syncList(cachedDataStore['input-announcements'] || DEFAULT_BULLETIN_DATA['input-announcements'], 'preview-announcements', true);
-        syncListHTML(cachedDataStore['input-schedule'] || DEFAULT_BULLETIN_DATA['input-schedule'], 'preview-schedule');
-        syncList(cachedDataStore['input-oversea'] || DEFAULT_BULLETIN_DATA['input-oversea'], 'preview-oversea');
-        syncList(cachedDataStore['input-domestic'] || DEFAULT_BULLETIN_DATA['input-domestic'], 'preview-domestic');
+        syncList(bd['input-announcements'] || DEFAULT_BULLETIN_DATA['input-announcements'], 'preview-announcements', true);
+        syncListHTML(bd['input-schedule'] || DEFAULT_BULLETIN_DATA['input-schedule'], 'preview-schedule');
+        syncList(bd['input-oversea'] || DEFAULT_BULLETIN_DATA['input-oversea'], 'preview-oversea');
+        syncList(bd['input-domestic'] || DEFAULT_BULLETIN_DATA['input-domestic'], 'preview-domestic');
 
-        syncText(cachedDataStore['input-presider'] || DEFAULT_BULLETIN_DATA['input-presider'], 'preview-presider');
-        syncText(cachedDataStore['input-hymns'] || DEFAULT_BULLETIN_DATA['input-hymns'], 'preview-hymns');
-        syncText(cachedDataStore['input-prayer1'] || DEFAULT_BULLETIN_DATA['input-prayer1'], 'preview-prayer1');
-        syncText(cachedDataStore['input-prayer2'] || DEFAULT_BULLETIN_DATA['input-prayer2'], 'preview-prayer2');
-        syncText(cachedDataStore['input-offertory'] || DEFAULT_BULLETIN_DATA['input-offertory'], 'preview-offertory');
-        syncText(cachedDataStore['input-offertory-person1'] || DEFAULT_BULLETIN_DATA['input-offertory-person1'], 'preview-offertory-person1');
-        syncText(cachedDataStore['input-offertory-person2'] || DEFAULT_BULLETIN_DATA['input-offertory-person2'], 'preview-offertory-person2');
-        syncText(cachedDataStore['input-bible'] || DEFAULT_BULLETIN_DATA['input-bible'], 'preview-bible');
-        syncText(cachedDataStore['input-sermon1'] || DEFAULT_BULLETIN_DATA['input-sermon1'], 'preview-sermon1');
-        syncText(cachedDataStore['input-sermon2'] || DEFAULT_BULLETIN_DATA['input-sermon2'], 'preview-sermon2');
+        syncText(bd['input-presider'] || DEFAULT_BULLETIN_DATA['input-presider'], 'preview-presider');
+        syncText(bd['input-hymns'] || DEFAULT_BULLETIN_DATA['input-hymns'], 'preview-hymns');
+        syncText(bd['input-prayer1'] || DEFAULT_BULLETIN_DATA['input-prayer1'], 'preview-prayer1');
+        syncText(bd['input-prayer2'] || DEFAULT_BULLETIN_DATA['input-prayer2'], 'preview-prayer2');
+        syncText(bd['input-offertory'] || DEFAULT_BULLETIN_DATA['input-offertory'], 'preview-offertory');
+        syncText(bd['input-offertory-person1'] || DEFAULT_BULLETIN_DATA['input-offertory-person1'], 'preview-offertory-person1');
+        syncText(bd['input-offertory-person2'] || DEFAULT_BULLETIN_DATA['input-offertory-person2'], 'preview-offertory-person2');
+        syncText(bd['input-bible'] || DEFAULT_BULLETIN_DATA['input-bible'], 'preview-bible');
+        syncText(bd['input-sermon1'] || DEFAULT_BULLETIN_DATA['input-sermon1'], 'preview-sermon1');
+        syncText(bd['input-sermon2'] || DEFAULT_BULLETIN_DATA['input-sermon2'], 'preview-sermon2');
       }
 
-      // 3. 확대/축소 화면 비율 Zoom 조절
+      // 5. 서버 통계 동기화 기능
+      async function syncDataFromServer() {
+        const btn = document.querySelector('button[onclick="syncDataFromServer()"]');
+        const originalText = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerText = "동기화 중...";
+        
+        await loadDataFromServer();
+        
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+        console.log("서버와 연동 동기화를 완료했습니다.");
+      }
+
+      // 6. 새로운 주차 시작 및 통계 누적
+      async function startNewWeek() {
+        if (confirm("🚨 주의: 이번 주 기록을 누적 처리하고 새로운 주차를 시작하시겠습니까?\n(이번 주 성경읽기가 누적 통계에 합산되고, 금주 읽은 장수는 0장으로 초기화되며, 인쇄 일자 및 주차가 1주일 뒤로 변경됩니다.)")) {
+          const btn = document.querySelector('button[onclick="startNewWeek()"]');
+          btn.disabled = true;
+          btn.innerText = "누적 처리 중...";
+          
+          try {
+            const res = await fetch('/api/new-week', { method: 'POST' });
+            const result = await res.json();
+            if (result.success) {
+              alert("새로운 주차가 성공적으로 시작되었습니다!");
+              await loadDataFromServer();
+            }
+          } catch(e) {
+            console.error("New week initiation failed:", e);
+            alert("처리 중 요류가 발생했습니다.");
+          } finally {
+            btn.disabled = false;
+            btn.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+              새 주차 시작 (누적)
+            `;
+          }
+        }
+      }
+
+      // 7. 확대/축소 화면 비율 Zoom 조절
       function applyZoom(zoomVal) {
         const sheets = document.querySelectorAll('.a4-sheet');
         const zoomDec = zoomVal / 100;
         
         sheets.forEach(sheet => {
           sheet.style.transform = `scale(${zoomDec})`;
-          const originalHeight = 210; // mm
-          const scaledHeight = originalHeight * zoomDec;
+          const originalHeight = 210;
           const diffPx = (sheet.offsetHeight * (1 - zoomDec)) / 2;
           sheet.style.marginBottom = `-${diffPx * 1.8}px`;
         });
@@ -1181,12 +1283,11 @@
         }
       }
 
-      // 초기 기기 해상도 대응 디폴트 줌 적용
       function applyInitialZoom() {
         const slider = document.getElementById('zoom-slider');
         const screenWidth = window.innerWidth;
         
-        let initialZoom = 85; // 넉넉한 데스크톱 규격
+        let initialZoom = 85;
         if (screenWidth < 1440) {
           initialZoom = 70;
         }
@@ -1200,11 +1301,41 @@
         }
       }
 
-      // 4. 전체 리셋 기능
       function confirmReset() {
         if (confirm("🚨 주의: 저장된 모든 데이터 및 직접 기입하신 주보 정보가 초기화되고 기본값으로 복원됩니다. 계속하시겠습니까?")) {
-          localStorage.removeItem('bulletin_custom_store_v2');
-          window.location.reload();
+          // Send request to server to reset or reset local state and trigger save
+          cachedDataStore = {
+            bulletinData: {},
+            familyChurches: [
+              { id: "김광선", leader: "김광선", attendance: "", baseCumulative: 14142, thisWeek: 460, cumulative: 14602 },
+              { id: "김길남", leader: "김길남", attendance: "", baseCumulative: 5182, thisWeek: 104, cumulative: 5286 },
+              { id: "김동주", leader: "김동주", attendance: "직", baseCumulative: 530, thisWeek: 0, cumulative: 530 },
+              { id: "김애신", leader: "김애신", attendance: "", baseCumulative: 3488, thisWeek: 200, cumulative: 3688 },
+              { id: "조영숙", leader: "조영숙", attendance: "", baseCumulative: 4059, thisWeek: 125, cumulative: 4184 },
+              { id: "윤명순", leader: "윤명순", attendance: "원", baseCumulative: 3213, thisWeek: 160, cumulative: 3373 },
+              { id: "이숙용", leader: "이숙용", attendance: "", baseCumulative: 6237, thisWeek: 150, cumulative: 6387 },
+              { id: "임상섭", leader: "임상섭", attendance: "", baseCumulative: 11819, thisWeek: 460, cumulative: 12279 },
+              { id: "임춘옥", leader: "임춘옥", attendance: "회", baseCumulative: 4459, thisWeek: 159, cumulative: 4618 },
+              { id: "정현숙", leader: "정현숙", attendance: "", baseCumulative: 7561, thisWeek: 300, cumulative: 7861 },
+              { id: "김명선", leader: "김명선", attendance: "", baseCumulative: 3493, thisWeek: 138, cumulative: 3631 },
+              { id: "새가족", leader: "새가족", attendance: "", baseCumulative: 0, thisWeek: 0, cumulative: 0 }
+            ],
+            editableElements: {}
+          };
+          
+          const payload = {
+            bulletinData: {},
+            familyChurches: cachedDataStore.familyChurches,
+            editableElements: {}
+          };
+
+          fetch('/api/save', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          }).then(() => {
+            window.location.reload();
+          });
         }
       }
     </script>
