@@ -1435,19 +1435,9 @@
 
       function getLeaderPageUrl() {
         if (window.location.protocol === 'file:') {
-          return 'https://chilly-bushes-hide.loca.lt/leader.html';
+          return 'https://79ca4d7cbef5af34-125-180-209-243.serveousercontent.com/leader';
         }
-        if (window.location.port === '3000' || window.location.hostname === 'localhost') {
-          return window.location.origin + '/leader';
-        }
-        const url = window.location.href.split('?')[0].split('#')[0];
-        if (url.includes('github.io') || url.includes('loca.lt')) {
-          return 'https://chilly-bushes-hide.loca.lt/leader.html';
-        }
-        if (url.endsWith('.html')) {
-          return url.substring(0, url.lastIndexOf('/')) + '/leader.html';
-        }
-        return url.endsWith('/') ? url + 'leader.html' : url + '/leader.html';
+        return window.location.origin + '/leader';
       }
 
       function copyLeaderLink() {
