@@ -932,17 +932,17 @@
       };
 
       const DEFAULT_CHURCHES_LIST = [
-        { id: "김광선", leader: "김광선", attendance: "", baseCumulative: 14142, thisWeek: 460, cumulative: 14602 },
-        { id: "김길남", leader: "김길남", attendance: "", baseCumulative: 5182, thisWeek: 104, cumulative: 5286 },
-        { id: "김동주", leader: "김동주", attendance: "직", baseCumulative: 530, thisWeek: 0, cumulative: 530 },
-        { id: "김애신", leader: "김애신", attendance: "", baseCumulative: 3488, thisWeek: 200, cumulative: 3688 },
-        { id: "조영숙", leader: "조영숙", attendance: "", baseCumulative: 4059, thisWeek: 125, cumulative: 4184 },
-        { id: "윤명순", leader: "윤명순", attendance: "원", baseCumulative: 3213, thisWeek: 160, cumulative: 3373 },
-        { id: "이숙용", leader: "이숙용", attendance: "", baseCumulative: 6237, thisWeek: 150, cumulative: 6387 },
-        { id: "임상섭", leader: "임상섭", attendance: "", baseCumulative: 11819, thisWeek: 460, cumulative: 12279 },
-        { id: "임춘옥", leader: "임춘옥", attendance: "회", baseCumulative: 4459, thisWeek: 159, cumulative: 4618 },
-        { id: "정현숙", leader: "정현숙", attendance: "", baseCumulative: 7561, thisWeek: 300, cumulative: 7861 },
-        { id: "김명선", leader: "김명선", attendance: "", baseCumulative: 3493, thisWeek: 138, cumulative: 3631 },
+        { id: "소망", leader: "김광선", attendance: "", baseCumulative: 14142, thisWeek: 460, cumulative: 14602 },
+        { id: "벧엘", leader: "김길남", attendance: "", baseCumulative: 5182, thisWeek: 104, cumulative: 5286 },
+        { id: "부흥", leader: "김동주", attendance: "직", baseCumulative: 530, thisWeek: 0, cumulative: 530 },
+        { id: "샬롬", leader: "김애신", attendance: "", baseCumulative: 3488, thisWeek: 200, cumulative: 3688 },
+        { id: "믿음", leader: "조영숙", attendance: "", baseCumulative: 4059, thisWeek: 125, cumulative: 4184 },
+        { id: "로뎀", leader: "윤명순", attendance: "원", baseCumulative: 3213, thisWeek: 160, cumulative: 3373 },
+        { id: "사랑", leader: "이숙용", attendance: "", baseCumulative: 6237, thisWeek: 150, cumulative: 6387 },
+        { id: "동행", leader: "임상섭", attendance: "", baseCumulative: 11819, thisWeek: 460, cumulative: 12279 },
+        { id: "마하나임", leader: "임춘옥", attendance: "회", baseCumulative: 4459, thisWeek: 159, cumulative: 4618 },
+        { id: "임마누엘", leader: "정현숙", attendance: "", baseCumulative: 7561, thisWeek: 300, cumulative: 7861 },
+        { id: "한나", leader: "김명선", attendance: "", baseCumulative: 3493, thisWeek: 138, cumulative: 3631 },
         { id: "새가족", leader: "새가족", attendance: "", baseCumulative: 0, thisWeek: 0, cumulative: 0 }
       ];
 
@@ -952,6 +952,22 @@
         familyChurches: [],
         editableElements: {}
       };
+
+      // 데이터 저장소 안전 규격화 함수 (Type-Safe guard)
+      function normalizeCachedDataStore() {
+        if (!cachedDataStore) {
+          cachedDataStore = {};
+        }
+        if (!cachedDataStore.bulletinData) {
+          cachedDataStore.bulletinData = {};
+        }
+        if (!cachedDataStore.familyChurches || !Array.isArray(cachedDataStore.familyChurches) || cachedDataStore.familyChurches.length === 0) {
+          cachedDataStore.familyChurches = [...DEFAULT_CHURCHES_LIST];
+        }
+        if (!cachedDataStore.editableElements) {
+          cachedDataStore.editableElements = {};
+        }
+      }
 
       // 초기화 기동 시 일괄 처리
       window.addEventListener('DOMContentLoaded', () => {
@@ -967,11 +983,12 @@
           if (!res.ok) throw new Error("API not available");
           const db = await res.json();
           cachedDataStore = db;
+          normalizeCachedDataStore();
 
           // 각 폼 필드 입력값 적용
           Object.keys(DEFAULT_BULLETIN_DATA).forEach(fieldId => {
             const inputEl = document.getElementById(fieldId);
-            const val = db.bulletinData[fieldId] !== undefined ? db.bulletinData[fieldId] : DEFAULT_BULLETIN_DATA[fieldId];
+            const val = cachedDataStore.bulletinData[fieldId] !== undefined ? cachedDataStore.bulletinData[fieldId] : DEFAULT_BULLETIN_DATA[fieldId];
             if (inputEl) {
               inputEl.value = val;
             }
@@ -981,15 +998,15 @@
           triggerAllBindings();
 
           // 가정교회 테이블 렌더링
-          renderFamilyChurchTable(db.familyChurches);
+          renderFamilyChurchTable(cachedDataStore.familyChurches);
 
           // 기타 contenteditable 영역 복원
           const editableElements = document.querySelectorAll('[contenteditable="true"]');
           editableElements.forEach(el => {
             if (el.id !== 'family-church-table') {
               const cacheId = `editable_${el.id}`;
-              if (db.editableElements[cacheId] !== undefined) {
-                el.innerHTML = db.editableElements[cacheId];
+              if (cachedDataStore.editableElements[cacheId] !== undefined) {
+                el.innerHTML = cachedDataStore.editableElements[cacheId];
               }
             }
           });
@@ -1014,10 +1031,12 @@
           useDefaultFallback();
         }
 
+        normalizeCachedDataStore();
+
         // Fill inputs from cachedDataStore.bulletinData
         Object.keys(DEFAULT_BULLETIN_DATA).forEach(fieldId => {
           const inputEl = document.getElementById(fieldId);
-          const val = (cachedDataStore.bulletinData && cachedDataStore.bulletinData[fieldId] !== undefined) 
+          const val = cachedDataStore.bulletinData[fieldId] !== undefined
                       ? cachedDataStore.bulletinData[fieldId] 
                       : DEFAULT_BULLETIN_DATA[fieldId];
           if (inputEl) {
@@ -1029,13 +1048,13 @@
         triggerAllBindings();
 
         // Restore editables and render table
-        renderFamilyChurchTable(cachedDataStore.familyChurches || DEFAULT_CHURCHES_LIST);
+        renderFamilyChurchTable(cachedDataStore.familyChurches);
 
         const editableElements = document.querySelectorAll('[contenteditable="true"]');
         editableElements.forEach(el => {
           if (el.id !== 'family-church-table') {
             const cacheId = `editable_${el.id}`;
-            if (cachedDataStore.editableElements && cachedDataStore.editableElements[cacheId] !== undefined) {
+            if (cachedDataStore.editableElements[cacheId] !== undefined) {
               el.innerHTML = cachedDataStore.editableElements[cacheId];
             }
           }
@@ -1071,7 +1090,7 @@
           sumCumulative += church.cumulative || 0;
 
           const isSpecialAttendance = ['직', '원', '회'].includes(attendanceText);
-          const attendanceClass = isSpecialAttendance ? 'font-bold text-red-600' : '';
+          const attendanceClass = isSpecialAttendance ? 'font-bold text-red-650' : '';
 
           html += `
             <tr class="border-b border-stone-200">
@@ -1143,7 +1162,9 @@
             if (inputEl) {
               bulletinData[fieldId] = inputEl.value;
             } else {
-              bulletinData[fieldId] = cachedDataStore.bulletinData[fieldId] || DEFAULT_BULLETIN_DATA[fieldId];
+              bulletinData[fieldId] = (cachedDataStore.bulletinData && cachedDataStore.bulletinData[fieldId] !== undefined)
+                                      ? cachedDataStore.bulletinData[fieldId] 
+                                      : DEFAULT_BULLETIN_DATA[fieldId];
             }
           });
 
@@ -1265,12 +1286,7 @@
 
       // 전체 바인딩 상태 자동화
       function triggerAllBindings() {
-        const bd = cachedDataStore.bulletinData;
-        syncText(bd['input-denom'] || DEFAULT_BULLETIN_DATA['input-denom'], 'preview-denom');
-        syncText(bd['input-date'] || DEFAULT_BULLETIN_DATA['input-date'], 'preview-date');
-        syncText(bd['input-date'] || DEFAULT_BULLETIN_DATA['input-date'], 'preview-date-liturgy');
-        syncText(bd['input-week'] || DEFAULT_BULLETIN_DATA['input-week'], 'preview-week');
-        syncText(bd['input-church'] || DEFAULT_BULLETIN_DATA['input-church'], 'preview-church');
+        const bd = cachedDataStore.bulletinData || {};
         syncText(bd['input-slogan'] || DEFAULT_BULLETIN_DATA['input-slogan'], 'preview-slogan');
         syncText(bd['input-scripture'] || DEFAULT_BULLETIN_DATA['input-scripture'], 'preview-scripture');
         syncText(bd['input-pastor'] || DEFAULT_BULLETIN_DATA['input-pastor'], 'preview-pastor');

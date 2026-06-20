@@ -18,17 +18,17 @@ app.use(express.static(import.meta.dirname));
 
 // Seed database with default values from images if it doesn't exist
 const DEFAULT_CHURCHES = [
-  { id: "김광선", leader: "김광선", attendance: "", baseCumulative: 14142, thisWeek: 460, cumulative: 14602 },
-  { id: "김길남", leader: "김길남", attendance: "", baseCumulative: 5182, thisWeek: 104, cumulative: 5286 },
-  { id: "김동주", leader: "김동주", attendance: "직", baseCumulative: 530, thisWeek: 0, cumulative: 530 },
-  { id: "김애신", leader: "김애신", attendance: "", baseCumulative: 3488, thisWeek: 200, cumulative: 3688 },
-  { id: "조영숙", leader: "조영숙", attendance: "", baseCumulative: 4059, thisWeek: 125, cumulative: 4184 },
-  { id: "윤명순", leader: "윤명순", attendance: "원", baseCumulative: 3213, thisWeek: 160, cumulative: 3373 },
-  { id: "이숙용", leader: "이숙용", attendance: "", baseCumulative: 6237, thisWeek: 150, cumulative: 6387 },
-  { id: "임상섭", leader: "임상섭", attendance: "", baseCumulative: 11819, thisWeek: 460, cumulative: 12279 },
-  { id: "임춘옥", leader: "임춘옥", attendance: "회", baseCumulative: 4459, thisWeek: 159, cumulative: 4618 },
-  { id: "정현숙", leader: "정현숙", attendance: "", baseCumulative: 7561, thisWeek: 300, cumulative: 7861 },
-  { id: "김명선", leader: "김명선", attendance: "", baseCumulative: 3493, thisWeek: 138, cumulative: 3631 },
+  { id: "소망", leader: "김광선", attendance: "", baseCumulative: 14142, thisWeek: 460, cumulative: 14602 },
+  { id: "벧엘", leader: "김길남", attendance: "", baseCumulative: 5182, thisWeek: 104, cumulative: 5286 },
+  { id: "부흥", leader: "김동주", attendance: "직", baseCumulative: 530, thisWeek: 0, cumulative: 530 },
+  { id: "샬롬", leader: "김애신", attendance: "", baseCumulative: 3488, thisWeek: 200, cumulative: 3688 },
+  { id: "믿음", leader: "조영숙", attendance: "", baseCumulative: 4059, thisWeek: 125, cumulative: 4184 },
+  { id: "로뎀", leader: "윤명순", attendance: "원", baseCumulative: 3213, thisWeek: 160, cumulative: 3373 },
+  { id: "사랑", leader: "이숙용", attendance: "", baseCumulative: 6237, thisWeek: 150, cumulative: 6387 },
+  { id: "동행", leader: "임상섭", attendance: "", baseCumulative: 11819, thisWeek: 460, cumulative: 12279 },
+  { id: "마하나임", leader: "임춘옥", attendance: "회", baseCumulative: 4459, thisWeek: 159, cumulative: 4618 },
+  { id: "임마누엘", leader: "정현숙", attendance: "", baseCumulative: 7561, thisWeek: 300, cumulative: 7861 },
+  { id: "한나", leader: "김명선", attendance: "", baseCumulative: 3493, thisWeek: 138, cumulative: 3631 },
   { id: "새가족", leader: "새가족", attendance: "", baseCumulative: 0, thisWeek: 0, cumulative: 0 }
 ];
 
