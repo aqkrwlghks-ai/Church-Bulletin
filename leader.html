@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>빛나는교회 | 가정교회 데이터 입력</title>
+    <!-- 설정 파일 로드 (Apps Script 연동) -->
+    <script src="config.js"></script>
     <!-- Google Fonts Noto Sans KR & Outfit -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
     <!-- Tailwind CSS (CDN) -->
@@ -142,10 +144,15 @@
         };
 
         try {
-          const res = await fetch('/api/leader-input', {
+          if (!CONFIG.GOOGLE_SCRIPT_API_URL || CONFIG.GOOGLE_SCRIPT_API_URL.includes("SAMPLE_URL")) {
+            throw new Error("Apps Script URL이 설정되지 않았습니다.");
+          }
+          const res = await fetch(CONFIG.GOOGLE_SCRIPT_API_URL + '?action=leaderInput', {
             method: 'POST',
+            mode: 'cors',
+            redirect: 'follow',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'text/plain'
             },
             body: JSON.stringify(data)
           });

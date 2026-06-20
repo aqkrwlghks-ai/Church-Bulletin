@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>교회 주보 생성기 | 실시간 A4 인쇄 레이아웃</title>
+    <!-- 설정 파일 로드 (Apps Script 연동) -->
+    <script src="config.js"></script>
     <!-- Google Fonts: 나눔명조 및 Noto Sans KR -->
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <!-- Tailwind CSS (CDN) -->
@@ -1000,7 +1002,10 @@
       // 1. 서버 API 연동 데이터 로드 및 UI 반영
       async function loadDataFromServer() {
         try {
-          const res = await fetch('/api/data');
+          if (!CONFIG.GOOGLE_SCRIPT_API_URL || CONFIG.GOOGLE_SCRIPT_API_URL.includes("SAMPLE_URL")) {
+            throw new Error("Apps Script URL이 설정되지 않았습니다.");
+          }
+          const res = await fetch(CONFIG.GOOGLE_SCRIPT_API_URL + '?action=getData');
           if (!res.ok) throw new Error("API not available");
           const db = await res.json();
           cachedDataStore = db;
@@ -1033,7 +1038,7 @@
           });
 
         } catch (e) {
-          console.warn("Express backend API not available, falling back to LocalStorage/Default:", e);
+          console.warn("Apps Script API not available, falling back to LocalStorage/Default:", e);
           loadLocalFallback();
         }
       }
@@ -1208,9 +1213,14 @@
           };
 
           try {
-            const res = await fetch('/api/save', {
+            if (!CONFIG.GOOGLE_SCRIPT_API_URL || CONFIG.GOOGLE_SCRIPT_API_URL.includes("SAMPLE_URL")) {
+              throw new Error("Apps Script URL이 설정되지 않았습니다.");
+            }
+            const res = await fetch(CONFIG.GOOGLE_SCRIPT_API_URL + '?action=saveAdmin', {
               method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
+              mode: 'cors',
+              redirect: 'follow',
+              headers: { 'Content-Type': 'text/plain' },
               body: JSON.stringify(payload)
             });
             const result = await res.json();
@@ -1351,7 +1361,14 @@
           btn.innerText = "누적 처리 중...";
           
           try {
-            const res = await fetch('/api/new-week', { method: 'POST' });
+            if (!CONFIG.GOOGLE_SCRIPT_API_URL || CONFIG.GOOGLE_SCRIPT_API_URL.includes("SAMPLE_URL")) {
+              throw new Error("Apps Script URL이 설정되지 않았습니다.");
+            }
+            const res = await fetch(CONFIG.GOOGLE_SCRIPT_API_URL + '?action=newWeek', { 
+              method: 'POST',
+              mode: 'cors',
+              redirect: 'follow'
+            });
             const result = await res.json();
             if (result.success) {
               alert("새로운 주차가 성공적으로 시작되었습니다!");
@@ -1359,7 +1376,7 @@
             }
           } catch(e) {
             console.error("New week initiation failed:", e);
-            alert("처리 중 요류가 발생했습니다.");
+            alert("처리 중 오류가 발생했습니다.");
           } finally {
             btn.disabled = false;
             btn.innerHTML = `
@@ -1420,9 +1437,17 @@
             editableElements: {}
           };
 
-          fetch('/api/save', {
+          if (!CONFIG.GOOGLE_SCRIPT_API_URL || CONFIG.GOOGLE_SCRIPT_API_URL.includes("SAMPLE_URL")) {
+            localStorage.removeItem('bulletin_custom_store_v2');
+            window.location.reload();
+            return;
+          }
+
+          fetch(CONFIG.GOOGLE_SCRIPT_API_URL + '?action=saveAdmin', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            mode: 'cors',
+            redirect: 'follow',
+            headers: { 'Content-Type': 'text/plain' },
             body: JSON.stringify(payload)
           }).catch(err => {
             console.warn("Failed server reset, clearing LocalStorage:", err);
@@ -1435,9 +1460,13 @@
 
       function getLeaderPageUrl() {
         if (window.location.protocol === 'file:') {
-          return 'https://79ca4d7cbef5af34-125-180-209-243.serveousercontent.com/leader';
+          return 'https://aqkrwlghks-ai.github.io/Church-Bulletin/leader.html';
         }
-        return window.location.origin + '/leader';
+        const url = window.location.href.split('?')[0].split('#')[0];
+        if (url.endsWith('.html')) {
+          return url.substring(0, url.lastIndexOf('/')) + '/leader.html';
+        }
+        return url.endsWith('/') ? url + 'leader.html' : url + '/leader.html';
       }
 
       function copyLeaderLink() {
