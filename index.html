@@ -277,19 +277,39 @@
         <div class="bg-white p-4 rounded-xl border border-stone-200 shadow-xs space-y-4">
           <h3 class="text-sm font-bold text-stone-900 border-l-4 border-emerald-700 pl-2 font-serif">1. 표지 정보 (1면)</h3>
           
-          <!-- 📸 표지 배경 이미지 변경 (최상단으로 이동) -->
-          <div class="bg-stone-50 p-3 rounded-lg border border-stone-200 space-y-2">
-            <label class="block text-xs font-bold text-stone-700 font-serif text-emerald-800">📸 표지 배경 이미지 변경 (JPG/PNG)</label>
-            <div class="flex gap-2 items-center">
-              <input type="file" id="input-bg-image" accept="image/*" onchange="uploadBgImage(this)" class="hidden">
-              <button onclick="document.getElementById('input-bg-image').click()" class="flex-1 bg-stone-200 hover:bg-stone-300 text-stone-700 text-[11px] font-semibold py-1.5 px-3 rounded-lg transition duration-150 cursor-pointer">
-                이미지 파일 선택
-              </button>
-              <button onclick="resetBgImage()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 text-[11px] font-semibold py-1.5 px-3 rounded-lg border border-rose-200 transition duration-150 cursor-pointer">
-                기본 복원
-              </button>
+          <!-- 📸 표지 배경 이미지 변경 (앞면 / 뒷면 각각 업로드) -->
+          <div class="bg-stone-50 p-3 rounded-lg border border-stone-200 space-y-3">
+            <label class="block text-xs font-bold text-stone-700 font-serif text-emerald-800">📸 주보 전체 배경 설정 (A4 바깥면)</label>
+            
+            <!-- 앞면 (1면) 배경 변경 -->
+            <div class="space-y-1">
+              <span class="block text-[10px] text-stone-500 font-medium">앞면 (1면 - 표지 우측) 전체 배경</span>
+              <div class="flex gap-1.5 items-center">
+                <input type="file" id="input-cover-bg" accept="image/*" onchange="uploadBgImage(this, 'cover')" class="hidden">
+                <button onclick="document.getElementById('input-cover-bg').click()" class="flex-1 bg-stone-200 hover:bg-stone-300 text-stone-700 text-[10px] font-semibold py-1 px-2 rounded transition cursor-pointer">
+                  앞면 이미지 선택
+                </button>
+                <button onclick="resetBgImage('cover')" class="bg-rose-50 hover:bg-rose-100 text-rose-700 text-[10px] font-semibold py-1 px-2 rounded border border-rose-200 transition cursor-pointer">
+                  복원
+                </button>
+              </div>
             </div>
-            <p class="text-[9.5px] text-stone-400 leading-normal">교회 전경 사진이나 절기 배경 이미지를 선택하면 비율에 맞춰 꽉 채워(cover) 들어갑니다.</p>
+
+            <!-- 뒷면 (4면) 배경 변경 -->
+            <div class="space-y-1">
+              <span class="block text-[10px] text-stone-500 font-medium">뒷면 (4면 - 소식지 좌측) 전체 배경</span>
+              <div class="flex gap-1.5 items-center">
+                <input type="file" id="input-back-bg" accept="image/*" onchange="uploadBgImage(this, 'back')" class="hidden">
+                <button onclick="document.getElementById('input-back-bg').click()" class="flex-1 bg-stone-200 hover:bg-stone-300 text-stone-700 text-[10px] font-semibold py-1 px-2 rounded transition cursor-pointer">
+                  뒷면 이미지 선택
+                </button>
+                <button onclick="resetBgImage('back')" class="bg-rose-50 hover:bg-rose-100 text-rose-700 text-[10px] font-semibold py-1 px-2 rounded border border-rose-200 transition cursor-pointer">
+                  복원
+                </button>
+              </div>
+            </div>
+            
+            <p class="text-[9px] text-stone-400 leading-normal">사진을 선택하면 주보의 각 면 전체 영역에 가득 차게(cover) 적용되며, 데이터는 구글 스프레드시트에 영구 저장됩니다.</p>
           </div>
 
           <div>
@@ -469,7 +489,12 @@
           <div class="grid grid-cols-2 h-full gap-x-12 relative flex-1">
             
             <!-- (왼쪽 절반) [4면]: 소식, 일정, 선교, 예배시간 등 (Back Cover) -->
-            <div class="flex flex-col h-full justify-between pr-4 relative">
+            <div class="flex flex-col h-full justify-between pr-4 relative" id="back-page-area">
+              <!-- 4면 전체 배경 이미지 (z-0) -->
+              <div id="back-bg" class="absolute inset-0 bg-cover bg-center pointer-events-none transition-all duration-300 z-0" style="background-image: none;"></div>
+              
+              <!-- 4면 콘텐츠 랩핑 (z-10) -->
+              <div class="relative z-10 flex flex-col h-full justify-between h-full">
               
               <!-- 4면 내부 2단 분할 구조 -->
               <div class="grid grid-cols-2 gap-4 flex-1">
@@ -606,17 +631,16 @@
                   <div class="text-[9.5px] font-bold text-emerald-800">금요예배</div>
                   <div class="text-[8px] text-stone-700">히브리서 12장</div>
                 </div>
-              </div>
-
+              </div> <!-- 4면 콘텐츠 랩핑 닫음 -->
             </div>
 
             <!-- (오른쪽 절반) [1면]: 표지 (Cover Page) -->
             <div class="flex flex-col h-full justify-between pl-4 relative" id="cover-page-area">
               
-              <!-- 옷걸이/집게 테마 탑 배경 이미지 -->
-              <div id="cover-bg" class="absolute inset-x-0 top-0 h-[38%] bg-cover bg-top pointer-events-none transition-all duration-300 rounded-t-lg" style="background-image: url('assets/cover_bg.png');"></div>
+              <!-- 1면 전체 배경 이미지 (absolute inset-0으로 화면 전체 채움) -->
+              <div id="cover-bg" class="absolute inset-0 bg-cover bg-center pointer-events-none transition-all duration-300 z-0" style="background-image: url('assets/cover_bg.png');"></div>
 
-              <!-- 콘텐츠 배치영역 (탑 여백 32%로 이미지 안가리게 처리) -->
+              <!-- 콘텐츠 배치영역 (Z-index 10으로 올려서 배경 이미지 위에 텍스트가 나오게 함) -->
               <div class="relative z-10 flex flex-col h-full justify-between pt-[32%]">
                 
                 <!-- 중앙 표지 타이틀 구역 -->
@@ -1353,13 +1377,24 @@
         syncText(bd['input-sermon1'] || DEFAULT_BULLETIN_DATA['input-sermon1'], 'preview-sermon1');
         syncText(bd['input-sermon2'] || DEFAULT_BULLETIN_DATA['input-sermon2'], 'preview-sermon2');
 
-        // 사용자 지정 표지 배경 복원
+        // 사용자 지정 앞면(우측 표지) / 뒷면(좌측 소식지) 배경 복원
         const coverBgEl = document.getElementById('cover-bg');
         if (coverBgEl) {
-          if (bd['custom-bg-image']) {
+          if (bd['custom-cover-bg']) {
+            coverBgEl.style.backgroundImage = `url(${bd['custom-cover-bg']})`;
+          } else if (bd['custom-bg-image']) { // 기존 단일 배경 업로드 하위 호환
             coverBgEl.style.backgroundImage = `url(${bd['custom-bg-image']})`;
           } else {
             coverBgEl.style.backgroundImage = "url('assets/cover_bg.png')";
+          }
+        }
+
+        const backBgEl = document.getElementById('back-bg');
+        if (backBgEl) {
+          if (bd['custom-back-bg']) {
+            backBgEl.style.backgroundImage = `url(${bd['custom-back-bg']})`;
+          } else {
+            backBgEl.style.backgroundImage = "none";
           }
         }
       }
@@ -1515,8 +1550,8 @@
         }
       }
 
-      // 표지 배경 이미지 업로드 및 Canvas 압축 처리
-      function uploadBgImage(input) {
+      // 표지 배경 이미지 업로드 및 Canvas 압축 처리 (타입: 'cover' / 'back')
+      function uploadBgImage(input, type) {
         const file = input.files[0];
         if (!file) return;
 
@@ -1543,8 +1578,14 @@
             const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.65);
             
             // 배경 이미지 적용 및 상태 저장
-            document.getElementById('cover-bg').style.backgroundImage = `url(${compressedDataUrl})`;
-            cachedDataStore.bulletinData['custom-bg-image'] = compressedDataUrl;
+            if (type === 'cover') {
+              document.getElementById('cover-bg').style.backgroundImage = `url(${compressedDataUrl})`;
+              cachedDataStore.bulletinData['custom-cover-bg'] = compressedDataUrl;
+            } else if (type === 'back') {
+              document.getElementById('back-bg').style.backgroundImage = `url(${compressedDataUrl})`;
+              cachedDataStore.bulletinData['custom-back-bg'] = compressedDataUrl;
+            }
+            
             saveToServer();
           };
           img.src = e.target.result;
@@ -1552,15 +1593,22 @@
         reader.readAsDataURL(file);
       }
 
-      // 배경 이미지 기본값으로 초기화
-      function resetBgImage() {
-        if (confirm("🚨 표지 배경 이미지를 기본값으로 다시 복원하시겠습니까?")) {
-          document.getElementById('cover-bg').style.backgroundImage = "url('assets/cover_bg.png')";
-          cachedDataStore.bulletinData['custom-bg-image'] = "";
+      // 배경 이미지 기본값으로 초기화 (타입: 'cover' / 'back')
+      function resetBgImage(type) {
+        if (confirm(`🚨 ${type === 'cover' ? '앞면' : '뒷면'} 배경 이미지를 기본값으로 다시 복원하시겠습니까?`)) {
+          if (type === 'cover') {
+            document.getElementById('cover-bg').style.backgroundImage = "url('assets/cover_bg.png')";
+            cachedDataStore.bulletinData['custom-cover-bg'] = "";
+            cachedDataStore.bulletinData['custom-bg-image'] = ""; // 호환성도 제거
+            const fileInput = document.getElementById('input-cover-bg');
+            if (fileInput) fileInput.value = "";
+          } else if (type === 'back') {
+            document.getElementById('back-bg').style.backgroundImage = "none";
+            cachedDataStore.bulletinData['custom-back-bg'] = "";
+            const fileInput = document.getElementById('input-back-bg');
+            if (fileInput) fileInput.value = "";
+          }
           saveToServer();
-          // 파일 인풋도 초기화
-          const fileInput = document.getElementById('input-bg-image');
-          if (fileInput) fileInput.value = "";
         }
       }
     </script>
