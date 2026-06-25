@@ -277,6 +277,21 @@
         <div class="bg-white p-4 rounded-xl border border-stone-200 shadow-xs space-y-4">
           <h3 class="text-sm font-bold text-stone-900 border-l-4 border-emerald-700 pl-2 font-serif">1. 표지 정보 (1면)</h3>
           
+          <!-- 📸 표지 배경 이미지 변경 (최상단으로 이동) -->
+          <div class="bg-stone-50 p-3 rounded-lg border border-stone-200 space-y-2">
+            <label class="block text-xs font-bold text-stone-700 font-serif text-emerald-800">📸 표지 배경 이미지 변경 (JPG/PNG)</label>
+            <div class="flex gap-2 items-center">
+              <input type="file" id="input-bg-image" accept="image/*" onchange="uploadBgImage(this)" class="hidden">
+              <button onclick="document.getElementById('input-bg-image').click()" class="flex-1 bg-stone-200 hover:bg-stone-300 text-stone-700 text-[11px] font-semibold py-1.5 px-3 rounded-lg transition duration-150 cursor-pointer">
+                이미지 파일 선택
+              </button>
+              <button onclick="resetBgImage()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 text-[11px] font-semibold py-1.5 px-3 rounded-lg border border-rose-200 transition duration-150 cursor-pointer">
+                기본 복원
+              </button>
+            </div>
+            <p class="text-[9.5px] text-stone-400 leading-normal">교회 전경 사진이나 절기 배경 이미지를 선택하면 비율에 맞춰 꽉 채워(cover) 들어갑니다.</p>
+          </div>
+
           <div>
             <label class="block text-xs text-stone-500 mb-1 font-medium">교단명</label>
             <input type="text" id="input-denom" oninput="syncText(this.value, 'preview-denom')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400">
@@ -311,20 +326,6 @@
           <div>
             <label class="block text-xs text-stone-500 mb-1 font-medium">담임목사 소개 문구</label>
             <input type="text" id="input-pastor" oninput="syncText(this.value, 'preview-pastor')" class="w-full bg-stone-50 border border-stone-300 rounded-lg py-1.5 px-3 text-sm text-stone-900 focus:outline-none focus:bg-white focus:ring-1 focus:ring-stone-400">
-          </div>
-
-          <div class="border-t border-stone-150 pt-3">
-            <label class="block text-xs text-stone-600 mb-1.5 font-bold font-serif text-emerald-800">📸 표지 배경 이미지 변경 (JPG/PNG)</label>
-            <div class="flex gap-2 items-center">
-              <input type="file" id="input-bg-image" accept="image/*" onchange="uploadBgImage(this)" class="hidden">
-              <button onclick="document.getElementById('input-bg-image').click()" class="flex-1 bg-stone-200 hover:bg-stone-300 text-stone-700 text-[11px] font-semibold py-1.5 px-3 rounded-lg transition duration-150 cursor-pointer">
-                이미지 파일 선택
-              </button>
-              <button onclick="resetBgImage()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 text-[11px] font-semibold py-1.5 px-3 rounded-lg border border-rose-200 transition duration-150 cursor-pointer">
-                기본값 복원
-              </button>
-            </div>
-            <p class="text-[9.5px] text-stone-400 mt-1 leading-relaxed">교회 전경 사진이나 절기 배경 이미지를 선택하면 비율에 맞춰 꽉 채워(cover) 들어갑니다.</p>
           </div>
         </div>
 
